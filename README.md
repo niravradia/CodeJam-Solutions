@@ -4,9 +4,7 @@ These are solutions to various code jam problems in Java, IDE used is Eclipse.
 
 Solutions added -
 
-1) Practice Contests
-
-  I) Practice Problems
+I) Practice Problems
 
     A) Alien Numbers - Correct
 
@@ -16,6 +14,6 @@ Solutions added -
 
     D) Shopping Plan - Incomplete
 
-  II) CodeJam Beta 2008
+II) CodeJam Beta 2008
 
     C) Random Route - Results seem to match those of solutions hosted on site. Declared Incorrect.
