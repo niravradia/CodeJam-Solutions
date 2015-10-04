@@ -1,15 +1,17 @@
 package pack;
 
+import java.math.BigDecimal;
+
 public class Road implements Comparable<Road> {
 	City src, dest;
 	int cost;
-	double probability;
+	BigDecimal probability;
 
 	public Road(City src, City dest, int cost) {
 		this.src = src;
 		this.dest = dest;
 		this.cost = cost;
-		this.probability = 0;
+		this.probability = new BigDecimal(0);
 	}
 
 	@Override

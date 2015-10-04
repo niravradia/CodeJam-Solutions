@@ -1,6 +1,6 @@
 package pack;
 
-public class City implements Comparable {
+public class City implements Comparable<City> {
 	String name;
 
 	public City(String name) {
@@ -8,7 +8,7 @@ public class City implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(City o) {
 		return this.name.compareTo(((City) o).name);
 	}
 

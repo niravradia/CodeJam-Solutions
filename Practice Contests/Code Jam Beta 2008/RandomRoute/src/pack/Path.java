@@ -5,11 +5,19 @@ import java.util.ArrayList;
 public class Path {
 	int cost;
 	int totalPaths;
-	ArrayList<Integer> reachedFrom;
+	ArrayList<Integer> preCityIndex;
+	ArrayList<Integer> preRoadIndex;
 
 	public Path() {
 		cost = -1;
 		totalPaths = 0;
-		reachedFrom = new ArrayList<Integer>();
+		preCityIndex = new ArrayList<Integer>();
+		preRoadIndex = new ArrayList<Integer>();
+	}
+
+	@Override
+	public String toString() {
+		return cost + " " + totalPaths + " " + preCityIndex.toString() + " "
+				+ preRoadIndex.toString();
 	}
 }
