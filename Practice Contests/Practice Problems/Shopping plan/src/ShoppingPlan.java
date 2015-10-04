@@ -2,9 +2,6 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-/**
- * Created by Aditya on 7/13/2015.
- */
 public class ShoppingPlan {
     public static void main(String s[]) {
         File fin = new File("input.in");
@@ -53,6 +50,7 @@ public class ShoppingPlan {
             String pair, cItem, cPrice;
             Scanner ls = null;
             String t;
+            scan.nextLine();
             for (int i = 0; i < numStores; i++) {
                 ls = new Scanner(t=scan.nextLine());
                 System.out.println(t);
