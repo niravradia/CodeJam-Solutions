@@ -3,11 +3,13 @@ package pack;
 public class Road implements Comparable<Road> {
 	City src, dest;
 	int cost;
+	double probability;
 
 	public Road(City src, City dest, int cost) {
 		this.src = src;
 		this.dest = dest;
 		this.cost = cost;
+		this.probability = 0;
 	}
 
 	@Override
