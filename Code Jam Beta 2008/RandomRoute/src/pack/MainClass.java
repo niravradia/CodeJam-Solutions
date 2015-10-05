@@ -204,6 +204,8 @@ public class MainClass {
 							roadListArray.get(z).probability));
 				}
 				System.out.print("\n");
+				for (int x = 0; x < cityListArray.size(); x++)
+					System.out.println(shortestPaths[x].toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

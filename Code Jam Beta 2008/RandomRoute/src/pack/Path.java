@@ -17,7 +17,7 @@ public class Path {
 
 	@Override
 	public String toString() {
-		return cost + " " + totalPaths + " " + preCityIndex.toString() + " "
-				+ preRoadIndex.toString();
+		return totalPaths + " " + preCityIndex.toString() + " "
+				+ preRoadIndex.toString() + " " + cost;
 	}
 }
