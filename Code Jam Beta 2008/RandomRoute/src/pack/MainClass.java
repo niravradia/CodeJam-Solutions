@@ -2,10 +2,7 @@ package pack;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -42,11 +39,9 @@ public class MainClass {
 		File fin = new File("input.in");
 		File fout = new File("output.out");
 		Scanner scan = null;
-		Writer write = null;
 		try {
 			System.setOut(new PrintStream(fout));
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -72,7 +67,6 @@ public class MainClass {
 		Iterator<Road> iteratorR;
 		try {
 			scan = new Scanner(fin);
-			write = new PrintWriter(fout);
 			T = scan.nextInt();
 			for (int i = 0; i < T; i++) {
 				cityListArray.clear();
@@ -206,8 +200,8 @@ public class MainClass {
 				System.out.print("Case #" + (i + 1) + ":");
 				for (int z = 0; z < roadListArray.size(); z++) {
 					System.out.print(" ");
-					System.out
-							.print(String.format("%.7f",roadListArray.get(z).probability));
+					System.out.print(String.format("%.7f",
+							roadListArray.get(z).probability));
 				}
 				System.out.print("\n");
 			}
@@ -216,7 +210,6 @@ public class MainClass {
 		} finally {
 			scan.close();
 			System.out.close();
-
 		}
 	}
 }
