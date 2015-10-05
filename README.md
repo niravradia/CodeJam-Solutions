@@ -16,4 +16,4 @@ I) Practice Problems
 
 II) CodeJam Beta 2008
 
-    C) Random Route - Results seem to match those of solutions hosted on site. Declared Incorrect.
+    C) Random Route - Failing for a few test cases
