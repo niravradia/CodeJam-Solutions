@@ -6,6 +6,8 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -145,7 +147,6 @@ public class MainClass {
 													.clear();
 											shortestPaths[c].preRoadIndex
 													.clear();
-											shortestPaths[c].totalPaths = shortestPaths[p].totalPaths;
 											shortestPaths[c].preCityIndex
 													.add(p);
 											shortestPaths[c].preRoadIndex
@@ -164,8 +165,6 @@ public class MainClass {
 													break;
 												}
 											if (!redundent) {
-												shortestPaths[c].totalPaths += shortestPaths[p].totalPaths;
-
 												shortestPaths[c].preCityIndex
 														.add(p);
 												shortestPaths[c].preRoadIndex
@@ -174,6 +173,28 @@ public class MainClass {
 										}
 									}
 						}
+				}
+
+				ArrayList<Integer> sortedIndices = new ArrayList<Integer>();
+				for (int t = 0; t < cityListArray.size(); t++) {
+					sortedIndices.add(t);
+				}
+				final Path[] dummyShortestPaths = shortestPaths.clone();
+				Collections.sort(sortedIndices, new Comparator<Integer>() {
+
+					@Override
+					public int compare(Integer arg0, Integer arg1) {
+						return dummyShortestPaths[arg0].cost
+								- dummyShortestPaths[arg1].cost;
+					}
+
+				});
+				for (int t = 1; t < cityListArray.size(); t++) {
+					for (int u = 0; u < shortestPaths[sortedIndices.get(t)].preCityIndex
+							.size(); u++) {
+						shortestPaths[sortedIndices.get(t)].totalPaths += shortestPaths[shortestPaths[sortedIndices
+								.get(t)].preCityIndex.get(u)].totalPaths;
+					}
 				}
 
 				reachableCitiesCount = 0;
@@ -204,8 +225,9 @@ public class MainClass {
 							roadListArray.get(z).probability));
 				}
 				System.out.print("\n");
-				for (int x = 0; x < cityListArray.size(); x++)
-					System.out.println(shortestPaths[x].toString());
+
+				for (int z = 0; z < shortestPaths.length; z++)
+					System.out.println(shortestPaths[sortedIndices.get(z)]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
