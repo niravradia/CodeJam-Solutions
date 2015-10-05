@@ -39,11 +39,11 @@ public class MainClass {
 		File fin = new File("input.in");
 		File fout = new File("output.out");
 		Scanner scan = null;
-		try {
-			System.setOut(new PrintStream(fout));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		// try {
+		// System.setOut(new PrintStream(fout));
+		// } catch (FileNotFoundException e1) {
+		// e1.printStackTrace();
+		// }
 
 		TreeSet<City> cityList = new TreeSet<City>();
 		ArrayList<City> cityListArray = new ArrayList<City>();
