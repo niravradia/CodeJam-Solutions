@@ -227,7 +227,8 @@ public class MainClass {
 				System.out.print("\n");
 
 				for (int z = 0; z < shortestPaths.length; z++)
-					System.out.println(shortestPaths[sortedIndices.get(z)]);
+					System.out.println(sortedIndices.get(z) + "  "
+							+ shortestPaths[sortedIndices.get(z)]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
