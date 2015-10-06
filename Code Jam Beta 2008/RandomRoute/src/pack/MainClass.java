@@ -41,11 +41,11 @@ public class MainClass {
 		File fin = new File("input.in");
 		File fout = new File("output.out");
 		Scanner scan = null;
-		// try {
-		// System.setOut(new PrintStream(fout));
-		// } catch (FileNotFoundException e1) {
-		// e1.printStackTrace();
-		// }
+		try {
+			System.setOut(new PrintStream(fout));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 
 		TreeSet<City> cityList = new TreeSet<City>();
 		ArrayList<City> cityListArray = new ArrayList<City>();
@@ -172,6 +172,7 @@ public class MainClass {
 											}
 										}
 									}
+
 						}
 				}
 
@@ -189,19 +190,22 @@ public class MainClass {
 					}
 
 				});
-				for (int t = 1; t < cityListArray.size(); t++) {
-					for (int u = 0; u < shortestPaths[sortedIndices.get(t)].preCityIndex
-							.size(); u++) {
-						shortestPaths[sortedIndices.get(t)].totalPaths += shortestPaths[shortestPaths[sortedIndices
-								.get(t)].preCityIndex.get(u)].totalPaths;
+				for (int t = 0; t < cityListArray.size(); t++)
+					if (shortestPaths[sortedIndices.get(t)].cost != 0
+							&& shortestPaths[sortedIndices.get(t)].cost != -1) {
+						for (int u = 0; u < shortestPaths[sortedIndices.get(t)].preCityIndex
+								.size(); u++) {
+							shortestPaths[sortedIndices.get(t)].totalPaths += shortestPaths[shortestPaths[sortedIndices
+									.get(t)].preCityIndex.get(u)].totalPaths;
+						}
 					}
-				}
 
 				reachableCitiesCount = 0;
 				for (int l = 0; l < cityListArray.size(); l++) {
 					if (shortestPaths[l].cost != -1
 							&& shortestPaths[l].cost != 0)
 						reachableCitiesCount++;
+
 				}
 				pCity = new BigDecimal(1).divide(new BigDecimal(
 						reachableCitiesCount), 9, RoundingMode.HALF_UP);
@@ -226,9 +230,9 @@ public class MainClass {
 				}
 				System.out.print("\n");
 
-				for (int z = 0; z < shortestPaths.length; z++)
-					System.out.println(sortedIndices.get(z) + "  "
-							+ shortestPaths[sortedIndices.get(z)]);
+				// for (int z = 0; z < shortestPaths.length; z++)
+				// System.out.println(sortedIndices.get(z) + "  "
+				// + shortestPaths[sortedIndices.get(z)]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
