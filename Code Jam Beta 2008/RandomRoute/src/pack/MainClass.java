@@ -222,7 +222,7 @@ public class MainClass {
 								cityListArray.indexOf(startingCity));
 					}
 
-				System.out.print("Case #" + (i + 1) + ":");
+				System.out.print("Case#" + (i + 1) + ":");
 				for (int z = 0; z < roadListArray.size(); z++) {
 					System.out.print(" ");
 					System.out.print(String.format("%.7f",
@@ -230,9 +230,9 @@ public class MainClass {
 				}
 				System.out.print("\n");
 
-				// for (int z = 0; z < shortestPaths.length; z++)
-				// System.out.println(sortedIndices.get(z) + "  "
-				// + shortestPaths[sortedIndices.get(z)]);
+				for (int z = 0; z < shortestPaths.length; z++)
+					System.out.println(sortedIndices.get(z) + "  "
+							+ shortestPaths[sortedIndices.get(z)]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

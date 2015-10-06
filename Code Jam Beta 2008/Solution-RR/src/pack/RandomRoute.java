@@ -82,7 +82,7 @@ public class RandomRoute implements Runnable {
 	private void solve() throws IOException {
 		int ttn = nextInt();
 		for (int tn = 1; tn <= ttn; tn++) {
-			out.print("Case #" + tn + ": ");
+			out.print("Case#" + tn + ": ");
 			int m = nextInt();
 			HashMap<String, Integer> hm = new HashMap<String, Integer>();
 			int[] a = new int[m];
