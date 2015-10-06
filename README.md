@@ -6,14 +6,14 @@ Solutions added -
 
 I) Practice Problems
 
-    A) Alien Numbers - Correct
+    A) Alien Numbers - Correct for both data sets
 
-    B) Always Turn Left - Correct
+    B) Always Turn Left - Correct for both data sets
 
-    C) Egg Drop - Correct
+    C) Egg Drop - Correct for both data sets
 
     D) Shopping Plan - Incomplete
 
 II) CodeJam Beta 2008
 
-    C) Random Route - Failing for a few test cases
+    C) Random Route - Correct for both data sets
