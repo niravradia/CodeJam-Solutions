@@ -13,7 +13,7 @@ public class ShoppingPlan {
 
 	public static int atoi(int[] a) {
 		int i = 0;
-	for (int x = 0; x < a.length; x++)
+		for (int x = 0; x < a.length; x++)
 			i += exp(x) * a[x];
 		return i;
 	}
@@ -32,10 +32,16 @@ public class ShoppingPlan {
 	}
 
 	public static double findMinCost(int[] itemsLeft, Store currentStore,
-			ArrayList<Store> storeList, boolean[] perishable) {
+			ArrayList<Store> storeList, boolean[] perishable, double priceGas,
+			int depth) {
 		double result = 0, optimalResult = -1;
 		boolean perished = false;
 
+		if (!currentStore.equals(start))
+			System.out.println(depth
+					+ " the value store in table is "
+					+ optimalCost[atoi(itemsLeft)][storeList
+							.indexOf(currentStore)] + "  " + atoi(itemsLeft));
 		if (!currentStore.equals(start))
 			if (optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] != -1)
 				return optimalCost[atoi(itemsLeft)][storeList
@@ -56,11 +62,11 @@ public class ShoppingPlan {
 		if (currentStore.equals(start))
 			init = 0;
 		int lim = exp(totalOptions);
-		lim = init + 1;
+		// lim = init + 1;
 		for (int c = init; c < lim; c++) {
 			choice = itoa(c, totalOptions);
 
-			Arrays.fill(choice, 1);
+			// Arrays.fill(choice, 1);
 
 			result = 0;
 			perished = false;
@@ -72,29 +78,52 @@ public class ShoppingPlan {
 						perished = true;
 				}
 
-			double tempResult = result;
-			for (int i = 0; i < storeList.size(); i++)
-				if (storeList.get(i).hasItems(itemsLeft)) {
-					if (!perished)
-						result += currentStore.distance(storeList.get(i))
-								+ findMinCost(itemsLeft, storeList.get(i),
-										storeList, perishable);
-					else
-						result += currentStore.distance(start)
-								+ start.distance(storeList.get(i))
-								+ findMinCost(itemsLeft, storeList.get(i),
-										storeList, perishable);
+			boolean finished = true;
+			for (int l = 0; l < itemsLeft.length; l++)
+				if (itemsLeft[l] != 0)
+					finished = false;
 
-					if (optimalResult == -1 || optimalResult > result)
-						optimalResult = result;
-					result = tempResult;
-				}
+			if (finished)
+				optimalResult = result + currentStore.distance(start);
+			else {
+				double tempResult = result;
+				for (int i = 0; i < storeList.size(); i++)
+					if (storeList.get(i).hasItems(itemsLeft)) {
 
-			for (int i = 0; i < totalOptions; i++)
-				if (choice[i] == 1) {
-					itemsLeft[optionAt[i]] = 1;
-				}
+						System.out.println(depth + " distance is "
+								+ currentStore.distance(start));
+
+						if (!perished)
+							result += priceGas
+									* currentStore.distance(storeList.get(i))
+									+ findMinCost(itemsLeft, storeList.get(i),
+											storeList, perishable, priceGas,
+											depth + 1);
+						else
+							result += priceGas
+									* currentStore.distance(start)
+									+ priceGas
+									* start.distance(storeList.get(i))
+									+ findMinCost(itemsLeft, storeList.get(i),
+											storeList, perishable, priceGas,
+											depth + 1);
+
+						if (optimalResult == -1 || optimalResult > result)
+							optimalResult = result;
+
+						System.out.println(depth + " results are " + result
+								+ "  " + optimalResult);
+						result = tempResult;
+					}
+
+				for (int i = 0; i < totalOptions; i++)
+					if (choice[i] == 1) {
+						itemsLeft[optionAt[i]] = 1;
+					}
+			}
 		}
+
+		System.out.println(depth + " the result is " + optimalResult);
 
 		if (!currentStore.equals(start))
 			return (optimalCost[atoi(itemsLeft)][storeList
@@ -180,7 +209,7 @@ public class ShoppingPlan {
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
 			System.out.println(findMinCost(itemsLeft, start, storeList,
-					perishable));
+					perishable, priceGas, 0));
 
 		}
 		scan.close();
