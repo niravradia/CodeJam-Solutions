@@ -123,12 +123,14 @@ public class ShoppingPlan {
 		else
 			return optimalResult;
 	}
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 	public static void main(String[] args) {
@@ -209,8 +211,15 @@ public class ShoppingPlan {
 			double[] noItems = new double[itemList.size()];
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
-			out.println("Case #"+cT+": "+round(findMinCost(itemsLeft, start, storeList,
-					perishable, priceGas, 0),7));
+			// out.println("Case #"+cT+": "+round(findMinCost(itemsLeft, start,
+			// storeList,
+			// perishable, priceGas, 0),7));
+
+			out.format(
+					"Case #%d: %.7f\n",
+					cT,
+					+round(findMinCost(itemsLeft, start, storeList, perishable,
+							priceGas, 0), 7));
 
 		}
 		out.close();
