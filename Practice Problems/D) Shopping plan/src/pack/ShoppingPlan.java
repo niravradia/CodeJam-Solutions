@@ -211,15 +211,16 @@ public class ShoppingPlan {
 			double[] noItems = new double[itemList.size()];
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
-			// out.println("Case #"+cT+": "+round(findMinCost(itemsLeft, start,
-			// storeList,
-			// perishable, priceGas, 0),7));
 
 			out.format(
 					"Case #%d: %.7f\n",
 					cT,
 					+round(findMinCost(itemsLeft, start, storeList, perishable,
 							priceGas, 0), 7));
+			System.out.println(Arrays.toString(optimalCost[0]));
+			System.out.println(Arrays.toString(optimalCost[1]));
+			System.out.println(Arrays.toString(optimalCost[2]));
+			System.out.println(Arrays.toString(optimalCost[3]));
 
 		}
 		out.close();
