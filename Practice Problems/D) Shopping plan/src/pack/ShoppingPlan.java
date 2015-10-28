@@ -70,7 +70,6 @@ public class ShoppingPlan {
 
 			result = 0;
 			perished = false;
-			System.out.println(depth+Arrays.toString(itemsLeft));
 			for (int i = 0; i < totalOptions; i++)
 				if (choice[i] == 1) {
 					result += currentStore.price[optionAt[i]];
@@ -85,7 +84,8 @@ public class ShoppingPlan {
 					finished = false;
 
 			if (finished)
-				optimalResult = result + currentStore.distance(start);
+				optimalResult = result + priceGas
+						* currentStore.distance(start);
 			else {
 				double tempResult = result;
 				for (int i = 0; i < storeList.size(); i++)
@@ -121,11 +121,13 @@ public class ShoppingPlan {
 				if (choice[i] == 1) {
 					itemsLeft[optionAt[i]] = 1;
 				}
-			System.out.println(depth+Arrays.toString(itemsLeft));
 
 		}
 
 		System.out.println(depth + " the result is " + optimalResult);
+
+		System.out.println(Arrays.toString(optimalCost[0]));
+		System.out.println(Arrays.toString(optimalCost[1]));
 
 		if (!currentStore.equals(start))
 			return (optimalCost[atoi(itemsLeft)][storeList
