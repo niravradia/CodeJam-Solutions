@@ -70,6 +70,7 @@ public class ShoppingPlan {
 
 			result = 0;
 			perished = false;
+			System.out.println(depth+Arrays.toString(itemsLeft));
 			for (int i = 0; i < totalOptions; i++)
 				if (choice[i] == 1) {
 					result += currentStore.price[optionAt[i]];
@@ -115,12 +116,13 @@ public class ShoppingPlan {
 								+ "  " + optimalResult);
 						result = tempResult;
 					}
-
-				for (int i = 0; i < totalOptions; i++)
-					if (choice[i] == 1) {
-						itemsLeft[optionAt[i]] = 1;
-					}
 			}
+			for (int i = 0; i < totalOptions; i++)
+				if (choice[i] == 1) {
+					itemsLeft[optionAt[i]] = 1;
+				}
+			System.out.println(depth+Arrays.toString(itemsLeft));
+
 		}
 
 		System.out.println(depth + " the result is " + optimalResult);
