@@ -2,6 +2,9 @@ package pack;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -37,11 +40,6 @@ public class ShoppingPlan {
 		double result = 0, optimalResult = -1;
 		boolean perished = false;
 
-		if (!currentStore.equals(start))
-			System.out.println(depth
-					+ " the value store in table is "
-					+ optimalCost[atoi(itemsLeft)][storeList
-							.indexOf(currentStore)] + "  " + atoi(itemsLeft));
 		if (!currentStore.equals(start))
 			if (optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] != -1)
 				return optimalCost[atoi(itemsLeft)][storeList
@@ -91,9 +89,6 @@ public class ShoppingPlan {
 				for (int i = 0; i < storeList.size(); i++)
 					if (storeList.get(i).hasItems(itemsLeft)) {
 
-						System.out.println(depth + " distance is "
-								+ currentStore.distance(start));
-
 						if (!perished)
 							result += priceGas
 									* currentStore.distance(storeList.get(i))
@@ -112,8 +107,6 @@ public class ShoppingPlan {
 						if (optimalResult == -1 || optimalResult > result)
 							optimalResult = result;
 
-						System.out.println(depth + " results are " + result
-								+ "  " + optimalResult);
 						result = tempResult;
 					}
 			}
@@ -124,25 +117,29 @@ public class ShoppingPlan {
 
 		}
 
-		System.out.println(depth + " the result is " + optimalResult);
-
-		System.out.println(Arrays.toString(optimalCost[0]));
-		System.out.println(Arrays.toString(optimalCost[1]));
-
 		if (!currentStore.equals(start))
 			return (optimalCost[atoi(itemsLeft)][storeList
 					.indexOf(currentStore)] = optimalResult);
 		else
 			return optimalResult;
 	}
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
 
 	public static void main(String[] args) {
 		File fin = new File("input.in");
 		File fout = new File("output.out");
+		PrintWriter out = null;
 		Scanner scan = null;
 		Scanner scanLine = null;
 
 		try {
+			out = new PrintWriter(fout);
 			scan = new Scanner(fin);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -212,10 +209,11 @@ public class ShoppingPlan {
 			double[] noItems = new double[itemList.size()];
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
-			System.out.println(findMinCost(itemsLeft, start, storeList,
-					perishable, priceGas, 0));
+			out.println("Case #"+cT+": "+round(findMinCost(itemsLeft, start, storeList,
+					perishable, priceGas, 0),7));
 
 		}
+		out.close();
 		scan.close();
 		scanLine.close();
 	}
