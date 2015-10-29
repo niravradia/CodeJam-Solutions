@@ -26,8 +26,8 @@ public class Store {
 	public String toString() {
 		String s = "";
 		for (int i = 0; i < price.length; i++)
-			s += "  " + price[i];
-		return x + " " + y + "->" + s;
+			s += " " + price[i] + " ";
+		return "(" + x + "," + y + ")->[" + s + "]\n";
 	}
 
 	@Override
