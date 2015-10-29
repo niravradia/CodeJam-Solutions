@@ -41,9 +41,10 @@ public class ShoppingPlan {
 		boolean perished = false;
 
 		if (!currentStore.equals(start))
-			if (optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] != -1)
+			if (optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] != -1) {
 				return optimalCost[atoi(itemsLeft)][storeList
 						.indexOf(currentStore)];
+			}
 		int totalOptions = 0;
 		for (int i = 0; i < currentStore.price.length; i++)
 			if (itemsLeft[i] == 1 && currentStore.price[i] != -1)
@@ -66,8 +67,6 @@ public class ShoppingPlan {
 
 			// Arrays.fill(choice, 1);
 
-			System.out.println(depth + " -> " + Arrays.toString(choice));
-
 			result = 0;
 			perished = false;
 			for (int i = 0; i < totalOptions; i++)
@@ -82,7 +81,7 @@ public class ShoppingPlan {
 			for (int l = 0; l < itemsLeft.length; l++)
 				if (itemsLeft[l] != 0)
 					finished = false;
-			
+
 			if (finished)
 				optimalResult = result + priceGas
 						* currentStore.distance(start);
@@ -110,6 +109,11 @@ public class ShoppingPlan {
 							optimalResult = result;
 
 						result = tempResult;
+
+						if (depth == 1)
+							System.out.println(storeList.indexOf(currentStore)
+									+ "  " + i + "  " + result + "  "
+									+ Arrays.toString(choice));
 					}
 			}
 			for (int i = 0; i < totalOptions; i++)
@@ -119,11 +123,6 @@ public class ShoppingPlan {
 
 		}
 
-		System.out.println(depth + " -> " + Arrays.toString(optimalCost[0]));
-		System.out.println(depth + " -> " + Arrays.toString(optimalCost[1]));
-		System.out.println(depth + " -> " + Arrays.toString(optimalCost[2]));
-		System.out.println(depth + " -> " + Arrays.toString(optimalCost[3]));
-		System.out.println(storeList);
 		if (!currentStore.equals(start))
 			optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] = optimalResult;
 
@@ -230,6 +229,9 @@ public class ShoppingPlan {
 			System.out.println(Arrays.toString(optimalCost[1]));
 			System.out.println(Arrays.toString(optimalCost[2]));
 			System.out.println(Arrays.toString(optimalCost[3]));
+
+			for (int i = 0; i < storeList.size(); i++)
+				System.out.println(storeList.get(i));
 
 		}
 		out.close();
