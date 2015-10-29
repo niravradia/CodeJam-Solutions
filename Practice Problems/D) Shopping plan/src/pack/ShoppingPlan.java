@@ -110,19 +110,24 @@ public class ShoppingPlan {
 
 						result = tempResult;
 
-						if (depth == 1)
-							System.out.println(storeList.indexOf(currentStore)
-									+ "  " + i + "  " + result + "  "
-									+ Arrays.toString(choice));
+						System.out.println(depth + "  "
+								+ storeList.indexOf(currentStore) + "  " + i
+								+ "  " + result + "  " + optimalResult + "  "
+								+ Arrays.toString(choice)
+								+ Arrays.toString(itemsLeft));
 					}
 			}
+			System.out.println(depth + "  " + c + " a returning "
+					+ optimalResult);
 			for (int i = 0; i < totalOptions; i++)
 				if (choice[i] == 1) {
 					itemsLeft[optionAt[i]] = 1;
 				}
+			System.out.println(depth + " b returning " + optimalResult);
 
 		}
 
+		System.out.println(depth + " c returning " + optimalResult);
 		if (!currentStore.equals(start))
 			optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] = optimalResult;
 

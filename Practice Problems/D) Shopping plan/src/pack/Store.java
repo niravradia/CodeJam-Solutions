@@ -1,5 +1,7 @@
 package pack;
 
+import java.util.Arrays;
+
 public class Store {
 	double x, y;
 	double price[];
@@ -25,8 +27,7 @@ public class Store {
 	@Override
 	public String toString() {
 		String s = "";
-		for (int i = 0; i < price.length; i++)
-			s += " " + price[i] + " ";
+		s += Arrays.toString(price);
 		return "(" + x + "," + y + ")->[" + s + "]\n";
 	}
 
