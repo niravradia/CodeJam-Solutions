@@ -249,8 +249,7 @@ public class ShoppingPlan {
 		} else {
 			double sresult = 0, soptimalResult = -1;
 			for (int si = 0; si < storeList.size(); si++) {
-				sresult = priceGas
-						* start.distance((si))
+				sresult = start.distance((si))
 						+ effFindMinCost(itemsLeft, storeList.get(si),
 								storeList, perishable, false, priceGas, null,
 								0, 0, 0);
@@ -300,17 +299,14 @@ public class ShoppingPlan {
 			if (storeList.get(i).hasItems(itemsLeft)) {
 				if (!perished)
 					result = pickedItemCost
-							+ priceGas
-							* currentStore.distance(i)
+							+ currentStore.distance(i)
 							+ effFindMinCost(itemsLeft, storeList.get(i),
 									storeList, perishable, false, priceGas,
 									null, 0, 0, 0);
 				else
 					result = pickedItemCost
-							+ priceGas
-							* currentStore.distance(storeList.size() - 1)
-							+ priceGas
-							* start.distance((i))
+							+ currentStore.distance(storeList.size() - 1)
+							+ start.distance((i))
 							+ effFindMinCost(itemsLeft, storeList.get(i),
 									storeList, perishable, false, priceGas,
 									null, 0, 0, 0);
