@@ -223,9 +223,6 @@ public class ShoppingPlan {
 					+round(findMinCost(itemsLeft, start, storeList, perishable,
 							priceGas, 0), 7));
 
-			for (int i = 0; i < storeList.size(); i++)
-				System.out.println(storeList.get(i));
-
 		}
 		out.close();
 		scan.close();
