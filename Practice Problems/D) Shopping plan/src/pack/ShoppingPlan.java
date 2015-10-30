@@ -61,11 +61,8 @@ public class ShoppingPlan {
 		if (currentStore.equals(start))
 			init = 0;
 		int lim = exp(totalOptions);
-		// lim = init + 1;
 		for (int c = init; c < lim; c++) {
 			choice = itoa(c, totalOptions);
-
-			// Arrays.fill(choice, 1);
 
 			result = 0;
 			perished = false;
