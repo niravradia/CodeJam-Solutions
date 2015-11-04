@@ -28,10 +28,12 @@ public class Store {
 							* (this.y - storeList.get(i).y));
 	}
 
-	public boolean hasItems(int[] itemsLeft) {
-		for (int i = 0; i < price.length; i++)
-			if (price[i] != -1 && itemsLeft[i] == 1)
+	public boolean hasItems(int itemsLeft) {
+		for (int i = 0; i < price.length; i++) {
+			if (price[i] != -1 && (itemsLeft & 1) == 1)
 				return true;
+			itemsLeft >>>= 1;
+		}
 		return false;
 	}
 
