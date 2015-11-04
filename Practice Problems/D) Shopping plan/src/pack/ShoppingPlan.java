@@ -35,8 +35,7 @@ public class ShoppingPlan {
 	}
 
 	public static double findMinCost(int[] itemsLeft, Store currentStore,
-			ArrayList<Store> storeList, boolean[] perishable, double priceGas,
-			int depth) {
+			ArrayList<Store> storeList, boolean[] perishable, int depth) {
 		double result = 0, optimalResult = -1;
 		boolean perished = false;
 
@@ -91,15 +90,13 @@ public class ShoppingPlan {
 						if (!perished)
 							result += currentStore.distance((i))
 									+ findMinCost(itemsLeft, storeList.get(i),
-											storeList, perishable, priceGas,
-											depth + 1);
+											storeList, perishable, depth + 1);
 						else
 							result += currentStore
 									.distance(storeList.size() - 1)
 									+ start.distance((i))
 									+ findMinCost(itemsLeft, storeList.get(i),
-											storeList, perishable, priceGas,
-											depth + 1);
+											storeList, perishable, depth + 1);
 
 						if (optimalResult == -1 || optimalResult > result)
 							optimalResult = result;
@@ -217,17 +214,23 @@ public class ShoppingPlan {
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
 
+			/*
+			 * out.format( "case #%d: %.7f\n", cT,
+			 * +round(effFindMinCost(itemsLeft, start, storeList, perishable,
+			 * false, null, 0, 0, 0), 7)); System.out.format(
+			 * "case #%d: %.7f\n", cT, +round(effFindMinCost(itemsLeft, start,
+			 * storeList, perishable, false, null, 0, 0, 0), 7));
+			 */
 			out.format(
 					"case #%d: %.7f\n",
 					cT,
 					+round(findMinCost(itemsLeft, start, storeList, perishable,
-							priceGas, 0), 7));
+							0), 7));
 			System.out.format(
 					"case #%d: %.7f\n",
 					cT,
 					+round(findMinCost(itemsLeft, start, storeList, perishable,
-							priceGas, 0), 7));
-
+							0), 7));
 		}
 		out.close();
 		scan.close();
@@ -236,8 +239,8 @@ public class ShoppingPlan {
 
 	public static double effFindMinCost(int[] itemsLeft, Store currentStore,
 			ArrayList<Store> storeList, boolean[] perishable, boolean perished,
-			double priceGas, int[] optionAt, int currentOption,
-			int totalOptions, int pickedItemCost) {
+			int[] optionAt, int currentOption, int totalOptions,
+			int pickedItemCost) {
 
 		double result = 0, optimalResult = -1;
 
@@ -251,8 +254,7 @@ public class ShoppingPlan {
 			for (int si = 0; si < storeList.size(); si++) {
 				sresult = start.distance((si))
 						+ effFindMinCost(itemsLeft, storeList.get(si),
-								storeList, perishable, false, priceGas, null,
-								0, 0, 0);
+								storeList, perishable, false, null, 0, 0, 0);
 				if (soptimalResult > sresult
 						|| (soptimalResult == -1 && sresult != -1))
 					soptimalResult = sresult;
@@ -277,8 +279,8 @@ public class ShoppingPlan {
 
 		if (currentOption < totalOptions - 1)
 			result = effFindMinCost(itemsLeft, currentStore, storeList,
-					perishable, perished, priceGas, optionAt,
-					currentOption + 1, totalOptions, pickedItemCost);
+					perishable, perished, optionAt, currentOption + 1,
+					totalOptions, pickedItemCost);
 		if (optimalResult > result || (optimalResult == -1 && result != -1))
 			optimalResult = result;
 
@@ -289,8 +291,8 @@ public class ShoppingPlan {
 
 		if (currentOption < totalOptions - 1)
 			result = effFindMinCost(itemsLeft, currentStore, storeList,
-					perishable, perished, priceGas, optionAt,
-					currentOption + 1, totalOptions, pickedItemCost);
+					perishable, perished, optionAt, currentOption + 1,
+					totalOptions, pickedItemCost);
 
 		if (optimalResult > result || (optimalResult == -1 && result != -1))
 			optimalResult = result;
@@ -301,15 +303,13 @@ public class ShoppingPlan {
 					result = pickedItemCost
 							+ currentStore.distance(i)
 							+ effFindMinCost(itemsLeft, storeList.get(i),
-									storeList, perishable, false, priceGas,
-									null, 0, 0, 0);
+									storeList, perishable, false, null, 0, 0, 0);
 				else
 					result = pickedItemCost
 							+ currentStore.distance(storeList.size() - 1)
 							+ start.distance((i))
 							+ effFindMinCost(itemsLeft, storeList.get(i),
-									storeList, perishable, false, priceGas,
-									null, 0, 0, 0);
+									storeList, perishable, false, null, 0, 0, 0);
 				if (optimalResult > result
 						|| (optimalResult == -1 && result != -1))
 					optimalResult = result;
