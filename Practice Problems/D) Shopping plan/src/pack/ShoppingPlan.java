@@ -348,6 +348,7 @@ public class ShoppingPlan {
 
 		itemsLeft |= 1 << optionAt[currentOption];
 
+		System.out.println(itemsLeft + "  " + optimalResult);
 		if (!currentStore.equals(start))
 			optimalCost[itemsLeft][storeList.indexOf(currentStore)] = optimalResult;
 		return optimalResult;
