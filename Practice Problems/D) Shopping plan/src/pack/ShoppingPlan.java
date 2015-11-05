@@ -215,66 +215,75 @@ public class ShoppingPlan {
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
 
-			/*
-			 * out.format( "case #%d: %.7f\n", cT,
-			 * +round(effFindMinCost(itemsLeft, start, storeList, perishable,
-			 * false, null, 0, 0, 0), 7)); System.out.format(
-			 * "case #%d: %.7f\n", cT, +round(effFindMinCost(itemsLeft, start,
-			 * storeList, perishable, false, null, 0, 0, 0), 7));
-			 */
 			out.format(
 					"case #%d: %.7f\n",
 					cT,
-					+round(findMinCost(exp(itemList.size()) - 1, start,
-							storeList, perishable, 0), 7));
+					+round(effFindMinCost(exp(itemList.size()) - 1, start,
+							storeList, perishable, false, null, 0, 0, 0), 7));
 			System.out.format(
 					"case #%d: %.7f\n",
 					cT,
-					+round(findMinCost(exp(itemList.size()) - 1, start,
-							storeList, perishable, 0), 7));
+					+round(effFindMinCost(exp(itemList.size()) - 1, start,
+							storeList, perishable, false, null, 0, 0, 0), 7));
+
+			/*
+			 * out.format( "case #%d: %.7f\n", cT,
+			 * +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
+			 * perishable, 0), 7)); System.out.format( "case #%d: %.7f\n", cT,
+			 * +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
+			 * perishable, 0), 7));
+			 */
+			out.println(Arrays.toString(optimalCost[0]));
+			out.println(Arrays.toString(optimalCost[1]));
+			out.println(Arrays.toString(optimalCost[2]));
+			out.println(Arrays.toString(optimalCost[3]));
+			out.println(Arrays.toString(optimalCost[4]));
+			out.println(Arrays.toString(optimalCost[5]));
+			out.println(Arrays.toString(optimalCost[6]));
+			out.println(Arrays.toString(optimalCost[7]));
+
 		}
 		out.close();
 		scan.close();
 		scanLine.close();
 	}
 
-	public static double effFindMinCost(int[] itemsLeft, Store currentStore,
+	public static double effFindMinCost(int itemsLeft, Store currentStore,
 			ArrayList<Store> storeList, boolean[] perishable, boolean perished,
 			int[] optionAt, int currentOption, int totalOptions,
 			int pickedItemCost) {
 
-		double result = 0, optimalResult = -1;
+		double result = -1, optimalResult = -1;
 
 		if (!currentStore.equals(start)) {
-			if (optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] != -1) {
-				return optimalCost[atoi(itemsLeft)][storeList
-						.indexOf(currentStore)];
+			if (optimalCost[itemsLeft][storeList.indexOf(currentStore)] != -1) {
+				return optimalCost[itemsLeft][storeList.indexOf(currentStore)];
 			}
 		} else {
 			double sresult = 0, soptimalResult = -1;
-			for (int si = 0; si < storeList.size(); si++) {
-				sresult = start.distance((si))
-						+ effFindMinCost(itemsLeft, storeList.get(si),
-								storeList, perishable, false, null, 0, 0, 0);
-				if (soptimalResult > sresult
-						|| (soptimalResult == -1 && sresult != -1))
-					soptimalResult = sresult;
+			for (int si = 0; si < storeList.size(); si++)
+				if (storeList.get(si).hasItems(itemsLeft)) {
+					sresult = start.distance((si))
+							+ effFindMinCost(itemsLeft, storeList.get(si),
+									storeList, perishable, false, null, 0, 0, 0);
+					if (soptimalResult > sresult
+							|| (soptimalResult == -1 && sresult != -1 && sresult != 0))
+						soptimalResult = sresult;
 
-			}
+				}
 			return soptimalResult;
-
 		}
 
 		if (optionAt == null) {
 			int counter = 0;
 			totalOptions = 0;
 			for (int i = 0; i < currentStore.price.length; i++)
-				if (itemsLeft[i] == 1 && currentStore.price[i] != -1)
+				if (((itemsLeft >>> i) & 1) == 1 && currentStore.price[i] != -1)
 					totalOptions++;
 
 			optionAt = new int[totalOptions];
 			for (int i = 0; i < currentStore.price.length; i++)
-				if (itemsLeft[i] == 1 && currentStore.price[i] != -1)
+				if (((itemsLeft >>> i) & 1) == 1 && currentStore.price[i] != -1)
 					optionAt[counter++] = i;
 		}
 
@@ -282,47 +291,65 @@ public class ShoppingPlan {
 			result = effFindMinCost(itemsLeft, currentStore, storeList,
 					perishable, perished, optionAt, currentOption + 1,
 					totalOptions, pickedItemCost);
-		if (optimalResult > result || (optimalResult == -1 && result != -1))
+
+		if (optimalResult > result
+				|| (optimalResult == -1 && result != -1 && result != 0))
 			optimalResult = result;
 
-		itemsLeft[optionAt[currentOption]] = 0;
+		itemsLeft &= 0xFFFF ^ (1 << optionAt[currentOption]);
 		if (perishable[optionAt[currentOption]])
 			perished = true;
 		pickedItemCost += currentStore.price[optionAt[currentOption]];
 
 		if (currentOption < totalOptions - 1)
-			result = effFindMinCost(itemsLeft, currentStore, storeList,
-					perishable, perished, optionAt, currentOption + 1,
-					totalOptions, pickedItemCost);
+			result = pickedItemCost
+					+ effFindMinCost(itemsLeft, currentStore, storeList,
+							perishable, perished, optionAt, currentOption + 1,
+							totalOptions, pickedItemCost);
 
-		if (optimalResult > result || (optimalResult == -1 && result != -1))
+		if (optimalResult > result
+				|| (optimalResult == -1 && result != -1 && result != 0))
 			optimalResult = result;
 
-		for (int i = 0; i < storeList.size(); i++)
-			if (storeList.get(i).hasItems(atoi(itemsLeft))) {
-				if (!perished)
-					result = pickedItemCost
-							+ currentStore.distance(i)
-							+ effFindMinCost(itemsLeft, storeList.get(i),
-									storeList, perishable, false, null, 0, 0, 0);
-				else
-					result = pickedItemCost
-							+ currentStore.distance(storeList.size() - 1)
-							+ start.distance((i))
-							+ effFindMinCost(itemsLeft, storeList.get(i),
-									storeList, perishable, false, null, 0, 0, 0);
-				if (optimalResult > result
-						|| (optimalResult == -1 && result != -1))
-					optimalResult = result;
-			}
+		if (itemsLeft == 0) {
+			result = pickedItemCost
+					+ start.distance(storeList.indexOf(currentStore));
+
+			if (optimalResult > result
+					|| (optimalResult == -1 && result != -1 && result != 0))
+				optimalResult = result;
+
+		} else
+			for (int i = 0; i < storeList.size(); i++)
+				if (storeList.get(i).hasItems(itemsLeft)) {
+					if (!perished)
+						result = pickedItemCost
+								+ currentStore.distance(i)
+								+ effFindMinCost(itemsLeft, storeList.get(i),
+										storeList, perishable, false, null, 0,
+										0, 0);
+					else
+						result = pickedItemCost
+								+ start.distance(storeList
+										.indexOf(currentStore))
+								+ start.distance((i))
+								+ effFindMinCost(itemsLeft, storeList.get(i),
+										storeList, perishable, false, null, 0,
+										0, 0);
+
+					if (optimalResult > result
+							|| (optimalResult == -1 && result != -1 && result != 0))
+						optimalResult = result;
+				}
 
 		pickedItemCost -= currentStore.price[optionAt[currentOption]];
 		if (perishable[optionAt[currentOption]])
 			perished = false;
-		itemsLeft[optionAt[currentOption]] = 1;
+
+		itemsLeft |= 1 << optionAt[currentOption];
 
 		if (!currentStore.equals(start))
-			optimalCost[atoi(itemsLeft)][storeList.indexOf(currentStore)] = optimalResult;
+			optimalCost[itemsLeft][storeList.indexOf(currentStore)] = optimalResult;
 		return optimalResult;
 	}
 }
