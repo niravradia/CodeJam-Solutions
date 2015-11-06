@@ -233,14 +233,10 @@ public class ShoppingPlan {
 			 * +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
 			 * perishable, 0), 7));
 			 */
-			out.println(Arrays.toString(optimalCost[0]));
-			out.println(Arrays.toString(optimalCost[1]));
-			out.println(Arrays.toString(optimalCost[2]));
-			out.println(Arrays.toString(optimalCost[3]));
-			out.println(Arrays.toString(optimalCost[4]));
-			out.println(Arrays.toString(optimalCost[5]));
-			out.println(Arrays.toString(optimalCost[6]));
-			out.println(Arrays.toString(optimalCost[7]));
+			System.out.println(Arrays.toString(optimalCost[0]));
+			System.out.println(Arrays.toString(optimalCost[1]));
+			System.out.println(Arrays.toString(optimalCost[2]));
+			System.out.println(Arrays.toString(optimalCost[3]));
 
 		}
 		out.close();
@@ -254,6 +250,8 @@ public class ShoppingPlan {
 			int pickedItemCost) {
 
 		double result = -1, optimalResult = -1;
+
+		System.out.println(itemsLeft);
 
 		if (!currentStore.equals(start)) {
 			if (optimalCost[itemsLeft][storeList.indexOf(currentStore)] != -1) {
