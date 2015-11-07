@@ -18,7 +18,8 @@ public class Verifier {
 				if (Double.parseDouble(a) != Double.parseDouble(b))
 					System.out.println(a + "  " + b);
 			} catch (Exception e) {
-
+				if(!a.equals(b))
+					System.out.println(a + "  " + b);
 			}
 		}
 	}
