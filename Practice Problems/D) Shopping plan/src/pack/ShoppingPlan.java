@@ -133,7 +133,7 @@ public class ShoppingPlan {
 
 	public static void main(String[] args) {
 		File fin = new File("input.in");
-		File fout = new File("output.out");
+		File fout = new File("outputC.out");
 		PrintWriter out = null;
 		Scanner scan = null;
 		Scanner scanLine = null;
@@ -215,7 +215,7 @@ public class ShoppingPlan {
 			Arrays.fill(noItems, -1);
 			start.price = noItems;
 
-			out.format(
+			/*out.format(
 					"case #%d: %.7f\n",
 					cT,
 					+round(effFindMinCost(exp(itemList.size()) - 1, start,
@@ -226,17 +226,13 @@ public class ShoppingPlan {
 					+round(effFindMinCost(exp(itemList.size()) - 1, start,
 							storeList, perishable, false, null, 0, 0, 0), 7));
 
-			/*
-			 * out.format( "case #%d: %.7f\n", cT,
-			 * +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
-			 * perishable, 0), 7)); System.out.format( "case #%d: %.7f\n", cT,
-			 * +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
-			 * perishable, 0), 7));
-			 */
-			System.out.println(Arrays.toString(optimalCost[0]));
-			System.out.println(Arrays.toString(optimalCost[1]));
-			System.out.println(Arrays.toString(optimalCost[2]));
-			System.out.println(Arrays.toString(optimalCost[3]));
+			*/
+			  out.format( "case #%d: %.7f\n", cT,
+			  +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
+			  perishable, 0), 7)); System.out.format( "case #%d: %.7f\n", cT,
+			  +round(findMinCost(exp(itemList.size()) - 1, start, storeList,
+			  perishable, 0), 7));
+			 
 
 		}
 		out.close();
@@ -250,8 +246,6 @@ public class ShoppingPlan {
 			int pickedItemCost) {
 
 		double result = -1, optimalResult = -1;
-
-		System.out.println(itemsLeft);
 
 		if (!currentStore.equals(start)) {
 			if (optimalCost[itemsLeft][storeList.indexOf(currentStore)] != -1) {
@@ -303,7 +297,7 @@ public class ShoppingPlan {
 			result = pickedItemCost
 					+ effFindMinCost(itemsLeft, currentStore, storeList,
 							perishable, perished, optionAt, currentOption + 1,
-							totalOptions, pickedItemCost);
+							totalOptions, 0);
 
 		if (optimalResult > result
 				|| (optimalResult == -1 && result != -1 && result != 0))
@@ -346,7 +340,6 @@ public class ShoppingPlan {
 
 		itemsLeft |= 1 << optionAt[currentOption];
 
-		System.out.println(itemsLeft + "  " + optimalResult);
 		if (!currentStore.equals(start))
 			optimalCost[itemsLeft][storeList.indexOf(currentStore)] = optimalResult;
 		return optimalResult;
