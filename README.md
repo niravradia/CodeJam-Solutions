@@ -12,7 +12,7 @@ I) Practice Problems
 
     C) Egg Drop - Correct for both data sets
 
-    D) Shopping Plan - Correct for small data set
+    D) Shopping Plan - Correct for both data sets
 
 II) CodeJam Beta 2008
 
