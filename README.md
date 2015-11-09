@@ -16,4 +16,8 @@ I) Practice Problems
 
 II) CodeJam Beta 2008
 
+    A) Triangle Trilemma - Correct for both data sets
+    
+    B) The Price Is Wrong - Incomplete
+    
     C) Random Route - Correct for both data sets
