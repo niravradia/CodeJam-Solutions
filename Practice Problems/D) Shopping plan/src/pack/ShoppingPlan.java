@@ -14,22 +14,6 @@ public class ShoppingPlan {
 	static double optimalCost[][];
 	public static Store start = new Store(0, 0, null);
 
-	public static int atoi(int[] a) {
-		int i = 0;
-		for (int x = 0; x < a.length; x++)
-			i += exp(x) * a[x];
-		return i;
-	}
-
-	public static int[] itoa(int i, int l) {
-		int a[] = new int[l];
-		for (int x = 0; x < l; x++) {
-			a[x] = i & 1;
-			i = i >>> 1;
-		}
-		return a;
-	}
-
 	public static int exp(int a) {
 		return (int) Math.pow(2, a);
 	}
