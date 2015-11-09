@@ -18,7 +18,7 @@ public class Triangle {
 		this.area = Math.sqrt(s * (s - e1) * (s - e2) * (s - e3));
 
 		this.theta1 = Math.acos((e2 * e2 + e3 * e3 - e1 * e1) / 2 * e2 * e3);
-		this.theta2 = Math.acos((e2 * e2 + e3 * e3 - e1 * e1) / 2 * e2 * e3);
-		this.theta3 = Math.acos((e2 * e2 + e3 * e3 - e1 * e1) / 2 * e2 * e3);
+		this.theta2 = Math.acos((e3 * e3 + e1 * e1 - e2 * e2) / 2 * e3 * e1);
+		this.theta3 = Math.acos((e1 * e1 + e2 * e2 - e3 * e3) / 2 * e1 * e2);
 	}
 }
