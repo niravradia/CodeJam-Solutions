@@ -18,6 +18,6 @@ II) CodeJam Beta 2008
 
     A) Triangle Trilemma - Correct for both data sets
     
-    B) The Price Is Wrong - Incomplete
+    B) The Price Is Wrong - Correct for both data sets
     
     C) Random Route - Correct for both data sets
