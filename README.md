@@ -21,3 +21,5 @@ II) CodeJam Beta 2008
     B) The Price Is Wrong - Correct for both data sets
     
     C) Random Route - Correct for both data sets
+    
+    D) Hexagon Game - Incomplete
