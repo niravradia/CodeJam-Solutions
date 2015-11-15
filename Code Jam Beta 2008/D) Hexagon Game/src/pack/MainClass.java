@@ -7,19 +7,45 @@ import java.util.Scanner;
 
 public class MainClass {
 
-	public static void initCheckerboard(int[][] graph, int size) {
+	public static void initCheckerboard(int[][] graph, int length, int size) {
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < size; j++)
 				graph[i][j] = -1;
 
-		int half = (size + 1) / 2;
-		int cl = half, i = 0;
-		while (cl >= half) {
+		int half = (length + 1) / 2;
+		int cl = half, icl, i = 0, cr = 1;
+		while (cr < length) {
 
-			if (cl < size)
+			if (cr < half)
+				icl = cl;
+			else
+				icl = cl - 1;
+
+			System.out.println(cl + "  " + icl);
+
+			if (cr < half) {
+				graph[i][i + icl] = graph[i + icl][i] = 1;
+			}
+			graph[i][i + icl + 1] = graph[i + icl + 1][i] = 1;
+			i++;
+
+			for (int x = 1; x < cl - 1; x++) {
+				graph[i][i + icl] = graph[i + icl][i] = graph[i][i + icl + 1] = graph[i
+						+ icl + 1][i] = 1;
+				i++;
+			}
+
+			graph[i][i + icl] = graph[i + icl][i] = 1;
+			if (cr < half) {
+				graph[i][i + icl + 1] = graph[i + icl + 1][i] = 1;
+			}
+			i++;
+
+			if (cr < half)
 				cl++;
 			else
 				cl--;
+			cr++;
 		}
 	}
 
@@ -32,6 +58,7 @@ public class MainClass {
 		ArrayList<Integer> checkerLocations = new ArrayList<Integer>(), checkerCosts = new ArrayList<Integer>();
 
 		int T = scan.nextInt(), length, size, graph[][];
+		scan.nextLine();
 
 		for (int cT = 0; cT < T; cT++) {
 
@@ -40,7 +67,7 @@ public class MainClass {
 
 			scanLine = new Scanner(scan.nextLine());
 			while (scanLine.hasNext())
-				checkerLocations.add(scanLine.nextInt());
+				checkerLocations.add(scanLine.nextInt() - 1);
 			scanLine.close();
 
 			scanLine = new Scanner(scan.nextLine());
@@ -48,14 +75,24 @@ public class MainClass {
 				checkerCosts.add(scanLine.nextInt());
 			scanLine.close();
 
-			length = checkerLocations.size();
+			length = 75;//checkerLocations.size();
 
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
 
 			graph = new int[size][size];
 
-			initCheckerboard(graph, size);
+			initCheckerboard(graph, length, size);
+
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
+					if (graph[i][j] == 1)
+						System.out.print(" 1");
+					else
+						System.out.print("-1");
+				}
+				System.out.println();
+			}
 		}
 		out.close();
 		scan.close();
