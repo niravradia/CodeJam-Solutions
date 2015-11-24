@@ -6,11 +6,14 @@ public class Tile {
 	double x, y;
 	Tile neighbours[];
 
-	public Tile(double x, double y) {
-		this.x = x;
-		this.y = y;
+	public Tile() {
 		neighbours = new Tile[6];
 		Arrays.fill(neighbours, null);
+	}
+
+	public void setCartesianCoordinates(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	public void addNeighbour(Tile t) {

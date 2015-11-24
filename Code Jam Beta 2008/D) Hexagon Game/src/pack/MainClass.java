@@ -75,11 +75,13 @@ public class MainClass {
 				checkerCosts.add(scanLine.nextInt());
 			scanLine.close();
 
-			length = 75;// checkerLocations.size();
+			length = checkerLocations.size();
 
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
 			Tile[] tiles = new Tile[size];
+			for (int i = 0; i < size; i++)
+				tiles[i] = new Tile();
 			initCheckerboard(tiles, length, size);
 		}
 		out.close();
