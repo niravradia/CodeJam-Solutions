@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MainClass {
 
-	public static void initCheckerboard(int[][] graph, int length, int size) {
+	public static void initCheckerboard(Tile[] tiles, int length, int size) {
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < size; j++)
 				graph[i][j] = -1;
@@ -57,7 +57,7 @@ public class MainClass {
 
 		ArrayList<Integer> checkerLocations = new ArrayList<Integer>(), checkerCosts = new ArrayList<Integer>();
 
-		int T = scan.nextInt(), length, size, graph[][];
+		int T = scan.nextInt(), length, size;
 		scan.nextLine();
 
 		for (int cT = 0; cT < T; cT++) {
@@ -75,24 +75,12 @@ public class MainClass {
 				checkerCosts.add(scanLine.nextInt());
 			scanLine.close();
 
-			length = 75;//checkerLocations.size();
+			length = 75;// checkerLocations.size();
 
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
-
-			graph = new int[size][size];
-
-			initCheckerboard(graph, length, size);
-
-			for (int i = 0; i < size; i++) {
-				for (int j = 0; j < size; j++) {
-					if (graph[i][j] == 1)
-						System.out.print(" 1");
-					else
-						System.out.print("-1");
-				}
-				System.out.println();
-			}
+			Tile[] tiles = new Tile[size];
+			initCheckerboard(tiles, length, size);
 		}
 		out.close();
 		scan.close();
