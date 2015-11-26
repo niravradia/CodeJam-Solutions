@@ -17,8 +17,8 @@ public class Tile {
 	}
 
 	public void addNeighbour(Tile t) {
-		int i = 0;
-		while (neighbours[i++] == null) {
+		int i = -1;
+		while (neighbours[++i] != null) {
 		}
 		neighbours[i] = t;
 	}

@@ -16,7 +16,7 @@ public class MainClass {
 
 		int half = (length + 1) / 2;
 		int cl = half, icl, i = 0, cr = 1, cc;
-		while (cr < length) {
+		while (cr <= length) {
 
 			cc = 0;
 			if (cr < half)
@@ -27,31 +27,38 @@ public class MainClass {
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl]);
 			}
-			addLink(tiles[i], tiles[i + icl + 1]);
+			if (cr != length)
+				addLink(tiles[i], tiles[i + icl + 1]);
 			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
 					* cr);
+			System.out.print(tiles[i].x + "," + tiles[i].y + "  ");
 			i++;
 			cc++;
 
 			for (int x = 1; x < cl - 1; x++) {
-				addLink(tiles[i], tiles[i + icl]);
-				addLink(tiles[i], tiles[i + icl + 1]);
+				if (cr != length) {
+					addLink(tiles[i], tiles[i + icl]);
+					addLink(tiles[i], tiles[i + icl + 1]);
+				}
 
-				tiles[i].setCartesianCoordinates(2 * (length - cl + x),
+				tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 						Math.sqrt(3) * cr);
 
+				System.out.print(tiles[i].x + "," + tiles[i].y + "  ");
 				i++;
 				cc++;
 			}
 
-			addLink(tiles[i], tiles[i + icl]);
+			if (cr != length)
+				addLink(tiles[i], tiles[i + icl]);
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl + 1]);
-				tiles[i].setCartesianCoordinates(2 * (length - 1),
-						Math.sqrt(3) * cr);
 			}
+			tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
+					Math.sqrt(3) * cr);
+
+			System.out.println(tiles[i].x + "," + tiles[i].y + "  ");
 			i++;
-			cc++;
 
 			if (cr < half)
 				cl++;
@@ -89,6 +96,7 @@ public class MainClass {
 
 			length = checkerLocations.size();
 
+			length = 5;
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
 			Tile[] tiles = new Tile[size];
