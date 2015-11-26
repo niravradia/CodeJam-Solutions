@@ -31,7 +31,7 @@ public class MainClass {
 				addLink(tiles[i], tiles[i + icl + 1]);
 			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
 					* cr);
-			System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
+			// System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
 			i++;
 			cc++;
 
@@ -44,7 +44,7 @@ public class MainClass {
 				tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 						Math.sqrt(3) * cr);
 
-				System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
+				// System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
 				i++;
 				cc++;
 			}
@@ -57,7 +57,7 @@ public class MainClass {
 			tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 					Math.sqrt(3) * cr);
 
-			System.out.println(tiles[i].x + "," + (int)tiles[i].y + "  ");
+			// System.out.println(tiles[i].x + "," + (int)tiles[i].y + "  ");
 			i++;
 
 			if (cr < half)
