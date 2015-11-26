@@ -15,9 +15,10 @@ public class MainClass {
 	public static void initCheckerboard(Tile[] tiles, int length, int size) {
 
 		int half = (length + 1) / 2;
-		int cl = half, icl, i = 0, cr = 1;
+		int cl = half, icl, i = 0, cr = 1, cc;
 		while (cr < length) {
 
+			cc = 0;
 			if (cr < half)
 				icl = cl;
 			else
@@ -27,19 +28,30 @@ public class MainClass {
 				addLink(tiles[i], tiles[i + icl]);
 			}
 			addLink(tiles[i], tiles[i + icl + 1]);
+			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
+					* cr);
 			i++;
+			cc++;
 
 			for (int x = 1; x < cl - 1; x++) {
 				addLink(tiles[i], tiles[i + icl]);
 				addLink(tiles[i], tiles[i + icl + 1]);
+
+				tiles[i].setCartesianCoordinates(2 * (length - cl + x),
+						Math.sqrt(3) * cr);
+
 				i++;
+				cc++;
 			}
 
 			addLink(tiles[i], tiles[i + icl]);
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl + 1]);
+				tiles[i].setCartesianCoordinates(2 * (length - 1),
+						Math.sqrt(3) * cr);
 			}
 			i++;
+			cc++;
 
 			if (cr < half)
 				cl++;
