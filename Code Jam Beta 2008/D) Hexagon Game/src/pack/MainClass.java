@@ -7,10 +7,12 @@ import java.util.Scanner;
 
 public class MainClass {
 
+	public static void addLink(Tile t1, Tile t2) {
+		t1.addNeighbour(t2);
+		t2.addNeighbour(t1);
+	}
+
 	public static void initCheckerboard(Tile[] tiles, int length, int size) {
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < size; j++)
-				graph[i][j] = -1;
 
 		int half = (length + 1) / 2;
 		int cl = half, icl, i = 0, cr = 1;
@@ -21,23 +23,21 @@ public class MainClass {
 			else
 				icl = cl - 1;
 
-			System.out.println(cl + "  " + icl);
-
 			if (cr < half) {
-				graph[i][i + icl] = graph[i + icl][i] = 1;
+				addLink(tiles[i], tiles[i + icl]);
 			}
-			graph[i][i + icl + 1] = graph[i + icl + 1][i] = 1;
+			addLink(tiles[i], tiles[i + icl + 1]);
 			i++;
 
 			for (int x = 1; x < cl - 1; x++) {
-				graph[i][i + icl] = graph[i + icl][i] = graph[i][i + icl + 1] = graph[i
-						+ icl + 1][i] = 1;
+				addLink(tiles[i], tiles[i + icl]);
+				addLink(tiles[i], tiles[i + icl + 1]);
 				i++;
 			}
 
-			graph[i][i + icl] = graph[i + icl][i] = 1;
+			addLink(tiles[i], tiles[i + icl]);
 			if (cr < half) {
-				graph[i][i + icl + 1] = graph[i + icl + 1][i] = 1;
+				addLink(tiles[i], tiles[i + icl + 1]);
 			}
 			i++;
 
