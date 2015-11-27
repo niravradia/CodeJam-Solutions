@@ -24,6 +24,7 @@ public class MainClass {
 			else
 				icl = cl - 1;
 
+			addLink(tiles[i], tiles[i + 1]);
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl]);
 			}
@@ -31,11 +32,13 @@ public class MainClass {
 				addLink(tiles[i], tiles[i + icl + 1]);
 			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
 					* cr);
-			// System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
 			i++;
 			cc++;
 
 			for (int x = 1; x < cl - 1; x++) {
+
+				addLink(tiles[i], tiles[i + 1]);
+
 				if (cr != length) {
 					addLink(tiles[i], tiles[i + icl]);
 					addLink(tiles[i], tiles[i + icl + 1]);
@@ -44,7 +47,6 @@ public class MainClass {
 				tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 						Math.sqrt(3) * cr);
 
-				// System.out.print(tiles[i].x + "," + (int)tiles[i].y + "  ");
 				i++;
 				cc++;
 			}
@@ -57,7 +59,6 @@ public class MainClass {
 			tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 					Math.sqrt(3) * cr);
 
-			// System.out.println(tiles[i].x + "," + (int)tiles[i].y + "  ");
 			i++;
 
 			if (cr < half)
@@ -96,13 +97,16 @@ public class MainClass {
 
 			length = checkerLocations.size();
 
-			length = 75;
+			length = 5;
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
 			Tile[] tiles = new Tile[size];
 			for (int i = 0; i < size; i++)
 				tiles[i] = new Tile();
 			initCheckerboard(tiles, length, size);
+
+			for (int i = 0; i < size; i++)
+				System.out.println(tiles[i]);
 		}
 		out.close();
 		scan.close();

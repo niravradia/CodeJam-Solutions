@@ -42,4 +42,21 @@ public class Tile {
 			}
 		return 1 + neighbours[n].steps(t);
 	}
+
+	@Override
+	public String toString() {
+		String s = "";
+		s += "(" + (int) x + "," + (int) y + ")";
+		s += "->";
+		for (int i = 0; i < 6; i++) {
+			if (neighbours[i] != null)
+				s += "(" + (int) neighbours[i].x + "," + (int) neighbours[i].y
+						+ ")";
+			else
+				s += "null";
+			if (i < 5)
+				s += ",";
+		}
+		return s;
+	}
 }
