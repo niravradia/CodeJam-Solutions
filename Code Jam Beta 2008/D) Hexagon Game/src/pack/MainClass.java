@@ -3,6 +3,7 @@ package pack;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MainClass {
@@ -33,6 +34,14 @@ public class MainClass {
 				addLink(tiles[i], tiles[i + icl + 1]);
 			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
 					* cr);
+
+			if (cr == 1)
+				solvedState[1][0] = i;
+			else if (cr == length)
+				solvedState[2][length - 1] = i;
+			else if (cr == half)
+				solvedState[0][0] = i;
+
 			i++;
 			cc++;
 
@@ -47,7 +56,8 @@ public class MainClass {
 
 				tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 						Math.sqrt(3) * cr);
-
+				if (cr == half)
+					solvedState[0][x] = i;
 				i++;
 				cc++;
 			}
@@ -60,6 +70,12 @@ public class MainClass {
 			tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
 					Math.sqrt(3) * cr);
 
+			if (cr == 1)
+				solvedState[2][0] = i;
+			else if (cr == length)
+				solvedState[1][length - 1] = i;
+			else if (cr == half)
+				solvedState[0][length - 1] = i;
 			i++;
 
 			if (cr < half)
@@ -111,6 +127,9 @@ public class MainClass {
 
 			for (int i = 0; i < size; i++)
 				System.out.println(tiles[i]);
+			System.out.println(Arrays.toString(solvedState[0]));
+			System.out.println(Arrays.toString(solvedState[1]));
+			System.out.println(Arrays.toString(solvedState[2]));
 		}
 		out.close();
 		scan.close();
