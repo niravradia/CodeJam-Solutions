@@ -12,7 +12,8 @@ public class MainClass {
 		t2.addNeighbour(t1);
 	}
 
-	public static void initCheckerboard(Tile[] tiles, int length, int size) {
+	public static void initCheckerboard(Tile[] tiles, int length, int size,
+			int[][] solvedState) {
 
 		int half = (length + 1) / 2;
 		int cl = half, icl, i = 0, cr = 1, cc;
@@ -77,7 +78,7 @@ public class MainClass {
 
 		ArrayList<Integer> checkerLocations = new ArrayList<Integer>(), checkerCosts = new ArrayList<Integer>();
 
-		int T = scan.nextInt(), length, size;
+		int T = scan.nextInt(), length, size, solvedState[][];
 		scan.nextLine();
 
 		for (int cT = 0; cT < T; cT++) {
@@ -98,12 +99,15 @@ public class MainClass {
 			length = checkerLocations.size();
 
 			length = 5;
+
+			solvedState = new int[3][length];
+
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
 			Tile[] tiles = new Tile[size];
 			for (int i = 0; i < size; i++)
 				tiles[i] = new Tile();
-			initCheckerboard(tiles, length, size);
+			initCheckerboard(tiles, length, size, solvedState);
 
 			for (int i = 0; i < size; i++)
 				System.out.println(tiles[i]);
