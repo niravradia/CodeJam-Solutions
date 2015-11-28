@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class MainClass {
 
+	public static Tile[] tiles;
+
 	public static void addLink(Tile t1, Tile t2) {
 		t1.addNeighbour(t2);
 		t2.addNeighbour(t1);
@@ -18,6 +20,7 @@ public class MainClass {
 
 		int half = (length + 1) / 2;
 		int cl = half, icl, i = 0, cr = 1, cc;
+		int start, end;
 		while (cr <= length) {
 
 			cc = 0;
@@ -26,20 +29,26 @@ public class MainClass {
 			else
 				icl = cl - 1;
 
+			start = i;
+			end = start + cl - 1;
+
+			if (cr < half) {
+				solvedState[1][cr - 1] = end - length / 2;
+				solvedState[2][cr - 1] = start + length / 2;
+			} else {
+				solvedState[1][cr - 1] = start + length / 2;
+				solvedState[2][cr - 1] = end - length / 2;
+			}
+
 			addLink(tiles[i], tiles[i + 1]);
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl]);
 			}
 			if (cr != length)
 				addLink(tiles[i], tiles[i + icl + 1]);
-			tiles[i].setCartesianCoordinates((length - cl) * 2, Math.sqrt(3)
-					* cr);
+			tiles[i].setCartesianCoordinates(length - cl, Math.sqrt(3) * cr);
 
-			if (cr == 1)
-				solvedState[1][0] = i;
-			else if (cr == length)
-				solvedState[2][length - 1] = i;
-			else if (cr == half)
+			if (cr == half)
 				solvedState[0][0] = i;
 
 			i++;
@@ -54,10 +63,11 @@ public class MainClass {
 					addLink(tiles[i], tiles[i + icl + 1]);
 				}
 
-				tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
+				tiles[i].setCartesianCoordinates((length - cl + 2 * cc),
 						Math.sqrt(3) * cr);
 				if (cr == half)
 					solvedState[0][x] = i;
+
 				i++;
 				cc++;
 			}
@@ -67,14 +77,10 @@ public class MainClass {
 			if (cr < half) {
 				addLink(tiles[i], tiles[i + icl + 1]);
 			}
-			tiles[i].setCartesianCoordinates(2 * (length - cl + cc),
+			tiles[i].setCartesianCoordinates((length - cl + 2 * cc),
 					Math.sqrt(3) * cr);
 
-			if (cr == 1)
-				solvedState[2][0] = i;
-			else if (cr == length)
-				solvedState[1][length - 1] = i;
-			else if (cr == half)
+			if (cr == half)
 				solvedState[0][length - 1] = i;
 			i++;
 
@@ -84,6 +90,70 @@ public class MainClass {
 				cl--;
 			cr++;
 		}
+	}
+
+	public static void updateStatus(int[] cLoc, int cost[], int solvedLoc[],
+			int length, boolean[] settled, int countSettled, int[] highestClaim) {
+		ArrayList<Integer> mint = new ArrayList<Integer>();
+		Arrays.fill(highestClaim, -1);
+		for (int x = countSettled; x < length; x++) {
+			int min = -1;
+			mint.clear();
+			for (int t = 0; t < length; t++)
+				if (!settled[t]) {
+					if (min == -1
+							|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[t]])) {
+						min = tiles[cLoc[x]].steps(tiles[solvedLoc[t]]);
+						mint.clear();
+						mint.add(t);
+					} else if (min == tiles[cLoc[x]].steps(tiles[solvedLoc[t]]))
+						mint.add(t);
+				}
+			for (int ti = 0; ti < mint.size(); ti++) {
+				if (highestClaim[mint.get(ti)] < cost[x])
+					highestClaim[mint.get(ti)] = cost[x];
+			}
+		}
+
+	}
+
+	public static int minCost(int[] cLoc, int cost[], int solvedLoc[],
+			int length) {
+		int s = 0;
+		boolean settled[] = new boolean[length];
+		Arrays.fill(settled, false);
+		int highestClaim[] = new int[length];
+		int min = -1, solutionLoc = -1;
+		ArrayList<Integer> closest = new ArrayList<Integer>();
+
+		for (int x = 0; x < length; x++) {
+			min = -1;
+			closest.clear();
+			updateStatus(cLoc, cost, solvedLoc, length, settled, x + 1,
+					highestClaim);
+			for (int t = 0; t < length; t++)
+				if (!settled[t]) {
+					if (min == -1
+							|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[t]])) {
+						min = tiles[cLoc[x]].steps(tiles[solvedLoc[t]]);
+						closest.clear();
+						closest.add(t);
+					} else if (min == tiles[cLoc[x]].steps(tiles[solvedLoc[t]]))
+						closest.add(t);
+				}
+			min = -1;
+			for (int ti = 0; ti < closest.size(); ti++)
+				if (min == -1
+						|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[closest
+								.get(ti)]])) {
+					min = tiles[cLoc[x]]
+							.steps(tiles[solvedLoc[closest.get(ti)]]);
+					solutionLoc = closest.get(ti);
+				}
+			s += min * cost[x];
+			settled[solutionLoc] = true;
+		}
+		return s;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -97,7 +167,7 @@ public class MainClass {
 		int T = scan.nextInt(), length, size, solvedState[][];
 		scan.nextLine();
 
-		for (int cT = 0; cT < T; cT++) {
+		for (int cT = 1; cT <= T; cT++) {
 
 			checkerLocations.clear();
 			checkerCosts.clear();
@@ -114,22 +184,50 @@ public class MainClass {
 
 			length = checkerLocations.size();
 
-			length = 5;
-
 			solvedState = new int[3][length];
 
 			size = ((length * (length + 1)) - ((length * length - 1) / 4))
 					- length;
-			Tile[] tiles = new Tile[size];
+			tiles = new Tile[size];
 			for (int i = 0; i < size; i++)
 				tiles[i] = new Tile();
 			initCheckerboard(tiles, length, size, solvedState);
 
-			for (int i = 0; i < size; i++)
-				System.out.println(tiles[i]);
-			System.out.println(Arrays.toString(solvedState[0]));
-			System.out.println(Arrays.toString(solvedState[1]));
-			System.out.println(Arrays.toString(solvedState[2]));
+			int t;
+			for (int i = 0; i < checkerCosts.size(); i++)
+				for (int j = i + 1; j < checkerCosts.size(); j++)
+					if (checkerCosts.get(j) > checkerCosts.get(i)) {
+						t = checkerCosts.get(j);
+						checkerCosts.set(j, checkerCosts.get(i));
+						checkerCosts.set(i, t);
+
+						t = checkerLocations.get(j);
+						checkerLocations.set(j, checkerLocations.get(i));
+						checkerLocations.set(i, t);
+					}
+			int[] locs = new int[checkerLocations.size()], costs = new int[checkerLocations
+					.size()];
+			for (int i = 0; i < checkerLocations.size(); i++) {
+				locs[i] = checkerLocations.get(i);
+				costs[i] = checkerCosts.get(i);
+			}
+
+			/*
+			 * for (int i = 0; i < size; i++) System.out.println(tiles[i]);
+			 * System.out.println(Arrays.toString(solvedState[0]));
+			 * System.out.println(Arrays.toString(solvedState[1]));
+			 * System.out.println(Arrays.toString(solvedState[2]));
+			 */
+			int minCost[] = new int[3];
+			for (int i = 0; i < 3; i++)
+				minCost[i] = minCost(locs, costs, solvedState[i], length);
+			out.print("Case #" + cT + ": ");
+			if (minCost[0] < minCost[1] && minCost[0] < minCost[2])
+				out.println(minCost[0]);
+			else if (minCost[1] < minCost[2])
+				out.println(minCost[1]);
+			else
+				out.println(minCost[2]);
 		}
 		out.close();
 		scan.close();

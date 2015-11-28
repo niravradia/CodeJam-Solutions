@@ -29,6 +29,7 @@ public class Tile {
 	}
 
 	public int steps(Tile t) {
+
 		if (t == this)
 			return 0;
 		int n = 0;
@@ -36,7 +37,7 @@ public class Tile {
 		for (int i = 1; i < neighbours.length; i++)
 			if (neighbours[i] == null)
 				break;
-			else if (neighbours[i].cartesianDistanceSquared(t) > minD) {
+			else if (neighbours[i].cartesianDistanceSquared(t) < minD) {
 				n = i;
 				minD = neighbours[i].cartesianDistanceSquared(t);
 			}
@@ -46,11 +47,11 @@ public class Tile {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "(" + (int) x + "," + (int) y + ")";
+		s += "(" +  x + "," +  y + ")";
 		s += "->";
 		for (int i = 0; i < 6; i++) {
 			if (neighbours[i] != null)
-				s += "(" + (int) neighbours[i].x + "," + (int) neighbours[i].y
+				s += "(" +  neighbours[i].x + "," +  neighbours[i].y
 						+ ")";
 			else
 				s += "null";
