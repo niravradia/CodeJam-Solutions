@@ -92,68 +92,40 @@ public class MainClass {
 		}
 	}
 
-	public static void updateStatus(int[] cLoc, int cost[], int solvedLoc[],
-			int length, boolean[] settled, int countSettled, int[] highestClaim) {
-		ArrayList<Integer> mint = new ArrayList<Integer>();
-		Arrays.fill(highestClaim, -1);
-		for (int x = countSettled; x < length; x++) {
-			int min = -1;
-			mint.clear();
-			for (int t = 0; t < length; t++)
-				if (!settled[t]) {
-					if (min == -1
-							|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[t]])) {
-						min = tiles[cLoc[x]].steps(tiles[solvedLoc[t]]);
-						mint.clear();
-						mint.add(t);
-					} else if (min == tiles[cLoc[x]].steps(tiles[solvedLoc[t]]))
-						mint.add(t);
-				}
-			for (int ti = 0; ti < mint.size(); ti++) {
-				if (highestClaim[mint.get(ti)] < cost[x])
-					highestClaim[mint.get(ti)] = cost[x];
+	public static int getSolution(int[][] solution, int[][] graph, int length,
+			int totalStates, int current, int availableEdges) {
+		if (current == -1)
+			return 0;
+		if (solution[current][availableEdges] != -1)
+			return solution[current][availableEdges];
+		int s = -1, ts;
+		for (int ce = 0, ie = 1; ce < length; ce++, ie = ie << 1) {
+			if ((ie & availableEdges) > 0) {
+				ts = graph[current][ce]
+						+ getSolution(solution, graph, length, totalStates,
+								current - 1, availableEdges ^ ie);
+				if (ts < s || s == -1)
+					s = ts;
 			}
 		}
-
+		solution[current][availableEdges] = s;
+		return s;
 	}
 
 	public static int minCost(int[] cLoc, int cost[], int solvedLoc[],
 			int length) {
-		int s = 0;
-		boolean settled[] = new boolean[length];
-		Arrays.fill(settled, false);
-		int highestClaim[] = new int[length];
-		int min = -1, solutionLoc = -1;
-		ArrayList<Integer> closest = new ArrayList<Integer>();
-
+		int graph[][] = new int[length][length];
 		for (int x = 0; x < length; x++) {
-			min = -1;
-			closest.clear();
-			updateStatus(cLoc, cost, solvedLoc, length, settled, x + 1,
-					highestClaim);
-			for (int t = 0; t < length; t++)
-				if (!settled[t]) {
-					if (min == -1
-							|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[t]])) {
-						min = tiles[cLoc[x]].steps(tiles[solvedLoc[t]]);
-						closest.clear();
-						closest.add(t);
-					} else if (min == tiles[cLoc[x]].steps(tiles[solvedLoc[t]]))
-						closest.add(t);
-				}
-			min = -1;
-			for (int ti = 0; ti < closest.size(); ti++)
-				if (min == -1
-						|| min > tiles[cLoc[x]].steps(tiles[solvedLoc[closest
-								.get(ti)]])) {
-					min = tiles[cLoc[x]]
-							.steps(tiles[solvedLoc[closest.get(ti)]]);
-					solutionLoc = closest.get(ti);
-				}
-			s += min * cost[x];
-			settled[solutionLoc] = true;
+			for (int y = 0; y < length; y++)
+				graph[x][y] = cost[x]
+						* tiles[cLoc[x]].steps(tiles[solvedLoc[y]]);
 		}
-		return s;
+		int totalStates = 1 << length;
+		int solution[][] = new int[length][totalStates];
+		for (int i = 0; i < length; i++)
+			Arrays.fill(solution[i], -1);
+		return getSolution(solution, graph, length, totalStates, length - 1,
+				totalStates - 1);
 	}
 
 	public static void main(String[] args) throws Exception {

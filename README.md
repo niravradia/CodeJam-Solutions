@@ -22,4 +22,4 @@ II) CodeJam Beta 2008
     
     C) Random Route - Correct for both data sets
     
-    D) Hexagon Game - Incomplete
+    D) Hexagon Game - Correct for small data set
