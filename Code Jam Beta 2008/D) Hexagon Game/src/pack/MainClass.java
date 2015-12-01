@@ -184,12 +184,6 @@ public class MainClass {
 				costs[i] = checkerCosts.get(i);
 			}
 
-			/*
-			 * for (int i = 0; i < size; i++) System.out.println(tiles[i]);
-			 * System.out.println(Arrays.toString(solvedState[0]));
-			 * System.out.println(Arrays.toString(solvedState[1]));
-			 * System.out.println(Arrays.toString(solvedState[2]));
-			 */
 			int minCost[] = new int[3];
 			for (int i = 0; i < 3; i++)
 				minCost[i] = minCost(locs, costs, solvedState[i], length);
