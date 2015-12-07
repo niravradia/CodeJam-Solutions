@@ -27,3 +27,5 @@ II) CodeJam Beta 2008
 III) Practice Problems
 
     A) Old Magician - Correct for both data sets
+    
+    B) Square Fields - Correct for both data sets
