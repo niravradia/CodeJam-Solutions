@@ -4,7 +4,7 @@ These are solutions to various code jam problems in Java, IDE used is Eclipse.
 
 Solutions added -
 
-I) Practice Problems
+1) Practice Problems
 
     A) Alien Numbers - Correct for both data sets
 
@@ -14,7 +14,7 @@ I) Practice Problems
 
     D) Shopping Plan - Correct for both data sets
 
-II) CodeJam Beta 2008
+2) CodeJam Beta 2008
 
     A) Triangle Trilemma - Correct for both data sets
     
@@ -24,7 +24,7 @@ II) CodeJam Beta 2008
     
     D) Hexagon Game - Correct for small data set
 
-III) Practice Problems
+3) Practice Problems
 
     A) Old Magician - Correct for both data sets
     
