@@ -34,12 +34,33 @@ public class MainClass {
 		}
 
 		boolean checkedForCycle[] = new boolean[l];
+		ArrayList<Integer> activeEdgeList = new ArrayList<Integer>();
+		for (int ii = 0; ii < activeEdge.length; ii++)
+			activeEdgeList.add(activeEdge[ii]);
 
+		int startingEdge, currentEdge;
+		boolean cycleDetected = false;
+		int cycleLength;
 		for (int i = 0; i < l; i++)
 			if (!checkedForCycle[i]) {
-				checkedForCycle[i] = false;
+				startingEdge = currentEdge = i;
+				cycleLength = 1;
+				checkedForCycle[i] = true;
 				while (degree[edges[activeEdge[i]][0]] == 2) {
-
+					for (int ii = 0; ii < vtoe[edges[activeEdge[i]][0]].size(); ii++) {
+						if (vtoe[edges[activeEdge[i]][0]].get(ii) != currentEdge
+								&& activeEdgeList
+										.indexOf(vtoe[edges[activeEdge[i]][0]]
+												.get(ii)) > -1) {
+							currentEdge = vtoe[edges[activeEdge[i]][0]].get(ii);
+							cycleLength++;
+							checkedForCycle[i] = true;
+							if (currentEdge == startingEdge) {
+								cycleDetected = true;
+								break;
+							}
+						}
+					}
 				}
 			}
 
@@ -74,7 +95,6 @@ public class MainClass {
 			for (int i = 1; i < 1 << k; i++)
 				count[i] = getPathCount(i);
 		}
-
 		scan.close();
 		out.close();
 	}
