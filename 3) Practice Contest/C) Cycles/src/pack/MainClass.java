@@ -64,17 +64,19 @@ public class MainClass {
 
 		Arrays.fill(degree, 0);
 		for (int i = 0; i < l; i++) {
+			System.out.println("degree " + Arrays.toString(degree));
 			if (++degree[edges[activeEdge[i]][0]] > 2
 					|| ++degree[edges[activeEdge[i]][1]] > 2)
 				return 0;
 		}
+		System.out.println(s);
 
 		boolean checkedForCycle[] = new boolean[l];
 		ArrayList<Integer> activeEdgeList = new ArrayList<Integer>();
 		for (int ii = 0; ii < activeEdge.length; ii++)
 			activeEdgeList.add(activeEdge[ii]);
 
-		int startingEdge, currentEdge;
+		int startingEdge, currentEdge, traversedVertex = -1;
 		boolean cycleDetected = false;
 		int cycleLength = 1;
 		outer: for (int i = 0; i < l; i++)
@@ -82,13 +84,19 @@ public class MainClass {
 				startingEdge = currentEdge = i;
 				cycleLength = 1;
 				checkedForCycle[i] = true;
-				if (degree[edges[activeEdge[i]][0]] == 2) {
-					for (int ii = 0; ii < vtoe[edges[activeEdge[i]][0]].size(); ii++) {
-						if (vtoe[edges[activeEdge[i]][0]].get(ii) != currentEdge
+
+				int v = 0;
+				while (degree[edges[currentEdge][((traversedVertex != -1 && traversedVertex != edges[currentEdge][0]) ? 0
+						: 1)]] == 2) {
+
+					v = (traversedVertex != -1 && traversedVertex != edges[currentEdge][0]) ? 0
+							: 1;
+					for (int ii = 0; ii < vtoe[edges[currentEdge][v]].size(); ii++) {
+						if (vtoe[edges[currentEdge][v]].get(ii) != currentEdge
 								&& activeEdgeList
-										.indexOf(vtoe[edges[activeEdge[i]][0]]
+										.indexOf(vtoe[edges[currentEdge][v]]
 												.get(ii)) > -1) {
-							currentEdge = vtoe[edges[activeEdge[i]][0]].get(ii);
+							currentEdge = vtoe[edges[currentEdge][v]].get(ii);
 							cycleLength++;
 							checkedForCycle[ii] = true;
 							if (currentEdge == startingEdge) {
@@ -114,8 +122,11 @@ public class MainClass {
 				countVertices++;
 			else if (degree[i] == 1)
 				countGroupsDouble += 0.5;
+			else
+				countGroupsDouble += 1;
 		int countGroups = (int) countGroupsDouble;
 
+		System.out.println(s + "  " + countVertices + "  " + countGroups);
 		solution = factorial(countGroups + countVertices - 1)
 				* (1 << countGroups) / 2;
 
@@ -154,9 +165,11 @@ public class MainClass {
 			int solution = 0;
 			for (int i = 1; i < 1 << k; i++)
 				System.out.println("s = "
-						+ (solution += Math.pow(-1, 1 + countOnes(i)) * count[i]));
+						+ (solution += Math.pow(-1, 1 + countOnes(i))
+								* count[i]));
 			System.out.println(Arrays.toString(count));
-			System.out.println(solution / 2);
+			System.out.println(factorial(n - 1) / 2);
+			System.out.println((solution) / 2);
 		}
 		scan.close();
 		out.close();
