@@ -94,19 +94,25 @@ public class MainClass {
 
 	public static int minCost(int[] cLoc, int cost[], int solvedLoc[],
 			int length) {
-		int graph[][] = new int[length][length];
+		double graph[][] = new double[length][length];
 		for (int x = 0; x < length; x++) {
 			for (int y = 0; y < length; y++)
 				graph[x][y] = cost[x]
 						* tiles[cLoc[x]].steps(tiles[solvedLoc[y]]);
 		}
-		int totalStates = 1 << length;
-		int solution[][] = new int[length][totalStates];
+		// int totalStates = 1 << length;
+		// int solution[][] = new int[length][totalStates];
+		// for (int i = 0; i < length; i++)
+		// Arrays.fill(solution[i], -1);
+		// return RecursiveApproach.getSolution(solution, graph, length,
+		// totalStates, length - 1,
+		// totalStates - 1);
+		Hungarian solver = new Hungarian(graph);
+		int solution = 0;
+		int[] assignment = solver.execute();
 		for (int i = 0; i < length; i++)
-			Arrays.fill(solution[i], -1);
-		return RecursiveApproach.getSolution(solution, graph, length,
-				totalStates, length - 1, totalStates - 1);
-		// return Hungarian.hungarian4(graph, length);
+			solution += graph[i][assignment[i]];
+		return solution;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -169,6 +175,7 @@ public class MainClass {
 			for (int i = 0; i < 3; i++)
 				minCost[i] = minCost(locs, costs, solvedState[i], length);
 			out.print("Case #" + cT + ": ");
+
 			if (minCost[0] < minCost[1] && minCost[0] < minCost[2])
 				out.println(minCost[0]);
 			else if (minCost[1] < minCost[2])

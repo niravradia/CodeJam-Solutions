@@ -22,10 +22,14 @@ Solutions added -
     
     C) Random Route - Correct for both data sets
     
-    D) Hexagon Game - Correct for small data set
+    D) Hexagon Game - Correct for both data sets
 
 3) Practice Problems
 
     A) Old Magician - Correct for both data sets
     
     B) Square Fields - Correct for both data sets
+	
+4) Google CodeJam 2008
+
+	A) Saving The Universe - Correct for both data sets
