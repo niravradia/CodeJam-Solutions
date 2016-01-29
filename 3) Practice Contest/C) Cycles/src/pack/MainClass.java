@@ -50,6 +50,8 @@ public class MainClass {
 
 		int solution = 0;
 
+		System.out.println("s = " + s);
+
 		int l = 0, st = s;
 		while (st > 0) {
 			l += st & 1;
@@ -64,41 +66,43 @@ public class MainClass {
 
 		Arrays.fill(degree, 0);
 		for (int i = 0; i < l; i++) {
-			System.out.println("degree " + Arrays.toString(degree));
 			if (++degree[edges[activeEdge[i]][0]] > 2
 					|| ++degree[edges[activeEdge[i]][1]] > 2)
 				return 0;
 		}
-		System.out.println(s);
 
 		boolean checkedForCycle[] = new boolean[l];
 		ArrayList<Integer> activeEdgeList = new ArrayList<Integer>();
 		for (int ii = 0; ii < activeEdge.length; ii++)
 			activeEdgeList.add(activeEdge[ii]);
 
-		int startingEdge, currentEdge, traversedVertex = -1;
+		int startingEdge, currentEdge, previousEdge, traversedVertex = -1;
 		boolean cycleDetected = false;
 		int cycleLength = 1;
 		outer: for (int i = 0; i < l; i++)
 			if (!checkedForCycle[i]) {
-				startingEdge = currentEdge = i;
+				startingEdge = currentEdge = previousEdge = i;
 				cycleLength = 1;
 				checkedForCycle[i] = true;
 
 				int v = 0;
-				while (degree[edges[currentEdge][((traversedVertex != -1 && traversedVertex != edges[currentEdge][0]) ? 0
-						: 1)]] == 2) {
+				while (degree[edges[currentEdge][traversedVertex == -1
+						|| traversedVertex != edges[currentEdge][0] ? 0 : 1]] == 2) {
 
-					v = (traversedVertex != -1 && traversedVertex != edges[currentEdge][0]) ? 0
+					v = (traversedVertex == -1 || traversedVertex != edges[currentEdge][0]) ? 0
 							: 1;
+					
+					System.out.println(currentEdge +" from "+ startingEdge+" vertex "+v+"  travV"+ traversedVertex);
 					for (int ii = 0; ii < vtoe[edges[currentEdge][v]].size(); ii++) {
 						if (vtoe[edges[currentEdge][v]].get(ii) != currentEdge
 								&& activeEdgeList
 										.indexOf(vtoe[edges[currentEdge][v]]
 												.get(ii)) > -1) {
+							previousEdge = currentEdge;
+							traversedVertex = edges[currentEdge][v];
 							currentEdge = vtoe[edges[currentEdge][v]].get(ii);
 							cycleLength++;
-							checkedForCycle[ii] = true;
+							checkedForCycle[activeEdgeList.indexOf(currentEdge)] = true;
 							if (currentEdge == startingEdge) {
 								cycleDetected = true;
 								break outer;
@@ -122,11 +126,9 @@ public class MainClass {
 				countVertices++;
 			else if (degree[i] == 1)
 				countGroupsDouble += 0.5;
-			else
-				countGroupsDouble += 1;
+
 		int countGroups = (int) countGroupsDouble;
 
-		System.out.println(s + "  " + countVertices + "  " + countGroups);
 		solution = factorial(countGroups + countVertices - 1)
 				* (1 << countGroups) / 2;
 
@@ -164,12 +166,10 @@ public class MainClass {
 
 			int solution = 0;
 			for (int i = 1; i < 1 << k; i++)
-				System.out.println("s = "
-						+ (solution += Math.pow(-1, 1 + countOnes(i))
-								* count[i]));
-			System.out.println(Arrays.toString(count));
-			System.out.println(factorial(n - 1) / 2);
-			System.out.println((solution) / 2);
+				solution += Math.pow(-1, 1 + countOnes(i)) * count[i];
+
+			System.out.println("Case #" + cT + ": "
+					+ ((factorial(n - 1)) / 2 - solution));
 		}
 		scan.close();
 		out.close();
