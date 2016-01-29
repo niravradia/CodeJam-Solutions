@@ -104,10 +104,9 @@ public class MainClass {
 		int solution[][] = new int[length][totalStates];
 		for (int i = 0; i < length; i++)
 			Arrays.fill(solution[i], -1);
-		// return RecursiveApproach.getSolution(solution, graph, length,
-		// totalStates, length - 1,
-		// totalStates - 1);
-		return Hungarian.hungarian4(graph, length);
+		return RecursiveApproach.getSolution(solution, graph, length,
+				totalStates, length - 1, totalStates - 1);
+		// return Hungarian.hungarian4(graph, length);
 	}
 
 	public static void main(String[] args) throws Exception {
