@@ -9,9 +9,45 @@ import java.util.Scanner;
 public class MainClass {
 
 	public static int n, k, edges[][], degree[];
-	public static ArrayList<Integer> vtoe[];
+	public static ArrayListI[] vtoe;
+
+	static class ArrayListI {
+		private ArrayList<Integer> list;
+
+		public ArrayListI() {
+			list = new ArrayList<Integer>();
+		}
+
+		public int size() {
+			return list.size();
+		}
+
+		public int get(int i) {
+			return list.get(i);
+		}
+
+		public void add(int i) {
+			list.add(i);
+		}
+
+	}
+
+	public static int factorial(int i) {
+		return i == 0 ? 1 : i * factorial(i - 1);
+	}
+
+	public static int countOnes(int i) {
+		int c = 0;
+		while (i > 0) {
+			if ((i & 1) > 0)
+				c++;
+			i >>>= 1;
+		}
+		return c;
+	}
 
 	public static int getPathCount(int s) {
+
 		int solution = 0;
 
 		int l = 0, st = s;
@@ -40,13 +76,13 @@ public class MainClass {
 
 		int startingEdge, currentEdge;
 		boolean cycleDetected = false;
-		int cycleLength;
-		for (int i = 0; i < l; i++)
+		int cycleLength = 1;
+		outer: for (int i = 0; i < l; i++)
 			if (!checkedForCycle[i]) {
 				startingEdge = currentEdge = i;
 				cycleLength = 1;
 				checkedForCycle[i] = true;
-				while (degree[edges[activeEdge[i]][0]] == 2) {
+				if (degree[edges[activeEdge[i]][0]] == 2) {
 					for (int ii = 0; ii < vtoe[edges[activeEdge[i]][0]].size(); ii++) {
 						if (vtoe[edges[activeEdge[i]][0]].get(ii) != currentEdge
 								&& activeEdgeList
@@ -54,15 +90,34 @@ public class MainClass {
 												.get(ii)) > -1) {
 							currentEdge = vtoe[edges[activeEdge[i]][0]].get(ii);
 							cycleLength++;
-							checkedForCycle[i] = true;
+							checkedForCycle[ii] = true;
 							if (currentEdge == startingEdge) {
 								cycleDetected = true;
-								break;
+								break outer;
 							}
 						}
 					}
 				}
 			}
+
+		if (cycleDetected) {
+			if (cycleLength < n)
+				return 0;
+			else
+				return 1;
+		}
+
+		int countVertices = 0;
+		double countGroupsDouble = 0;
+		for (int i = 0; i < n; i++)
+			if (degree[i] == 0)
+				countVertices++;
+			else if (degree[i] == 1)
+				countGroupsDouble += 0.5;
+		int countGroups = (int) countGroupsDouble;
+
+		solution = factorial(countGroups + countVertices - 1)
+				* (1 << countGroups) / 2;
 
 		return solution;
 	}
@@ -79,8 +134,9 @@ public class MainClass {
 			k = scan.nextInt();
 
 			degree = new int[n];
+			vtoe = new ArrayListI[n];
 			for (int i = 0; i < n; i++)
-				vtoe[i] = new ArrayList<Integer>();
+				vtoe[i] = new ArrayListI();
 			edges = new int[k][2];
 			count = new int[1 << k];
 
@@ -91,9 +147,15 @@ public class MainClass {
 				vtoe[edges[i][0]].add(i);
 				vtoe[edges[i][1]].add(i);
 			}
-			Arrays.fill(vtoe, -1);
+
 			for (int i = 1; i < 1 << k; i++)
 				count[i] = getPathCount(i);
+
+			int solution = 0;
+			for (int i = 1; i < 1 << k; i++)
+				System.out.println("s = "+(solution += Math.pow(-1, 1 + countOnes(i)) * count[i]));
+			System.out.println(Arrays.toString(count));
+			System.out.println(solution / 2);
 		}
 		scan.close();
 		out.close();
