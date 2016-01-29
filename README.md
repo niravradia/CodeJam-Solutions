@@ -22,7 +22,7 @@ Solutions added -
     
     C) Random Route - Correct for both data sets
     
-    D) Hexagon Game - Correct for small data set
+    D) Hexagon Game - Correct for both data sets
 
 3) Practice Problems
 
