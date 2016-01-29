@@ -153,7 +153,8 @@ public class MainClass {
 
 			int solution = 0;
 			for (int i = 1; i < 1 << k; i++)
-				System.out.println("s = "+(solution += Math.pow(-1, 1 + countOnes(i)) * count[i]));
+				System.out.println("s = "
+						+ (solution += Math.pow(-1, 1 + countOnes(i)) * count[i]));
 			System.out.println(Arrays.toString(count));
 			System.out.println(solution / 2);
 		}
