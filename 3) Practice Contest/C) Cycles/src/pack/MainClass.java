@@ -50,8 +50,6 @@ public class MainClass {
 
 		int solution = 0;
 
-		System.out.println("s = " + s);
-
 		int l = 0, st = s;
 		while (st > 0) {
 			l += st & 1;
@@ -81,8 +79,8 @@ public class MainClass {
 		int cycleLength = 1;
 		outer: for (int i = 0; i < l; i++)
 			if (!checkedForCycle[i]) {
-				startingEdge = currentEdge = previousEdge = i;
-				cycleLength = 1;
+				startingEdge = currentEdge = previousEdge = activeEdge[i];
+				cycleLength = 0;
 				checkedForCycle[i] = true;
 
 				int v = 0;
@@ -91,10 +89,10 @@ public class MainClass {
 
 					v = (traversedVertex == -1 || traversedVertex != edges[currentEdge][0]) ? 0
 							: 1;
-					
-					System.out.println(currentEdge +" from "+ startingEdge+" vertex "+v+"  travV"+ traversedVertex);
+
 					for (int ii = 0; ii < vtoe[edges[currentEdge][v]].size(); ii++) {
-						if (vtoe[edges[currentEdge][v]].get(ii) != currentEdge
+						if (vtoe[edges[currentEdge][v]].get(ii) != previousEdge
+								&& vtoe[edges[currentEdge][v]].get(ii) != currentEdge
 								&& activeEdgeList
 										.indexOf(vtoe[edges[currentEdge][v]]
 												.get(ii)) > -1) {
@@ -168,8 +166,8 @@ public class MainClass {
 			for (int i = 1; i < 1 << k; i++)
 				solution += Math.pow(-1, 1 + countOnes(i)) * count[i];
 
-			System.out.println("Case #" + cT + ": "
-					+ ((factorial(n - 1)) / 2 - solution));
+			out.println("Case #" + cT + ": "
+					+ ((factorial(n - 1)) / 2 - solution) % 9901);
 		}
 		scan.close();
 		out.close();
