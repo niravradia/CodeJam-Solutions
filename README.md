@@ -29,6 +29,8 @@ Solutions added -
     A) Old Magician - Correct for both data sets
     
     B) Square Fields - Correct for both data sets
+    
+    C) Cycles - Correct for both data sets
 	
 4) Google CodeJam 2008
 

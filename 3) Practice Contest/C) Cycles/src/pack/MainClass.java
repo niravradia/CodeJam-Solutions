@@ -33,7 +33,7 @@ public class MainClass {
 	}
 
 	public static int factorial(int i) {
-		return i == 0 ? 1 : i * factorial(i - 1);
+		return i == 0 ? 1 : (i * factorial(i - 1) % 9901);
 	}
 
 	public static int countOnes(int i) {
@@ -160,14 +160,18 @@ public class MainClass {
 			}
 
 			for (int i = 1; i < 1 << k; i++)
-				count[i] = getPathCount(i);
+				count[i] = getPathCount(i) % 9901;
 
 			int solution = 0;
-			for (int i = 1; i < 1 << k; i++)
+			for (int i = 1; i < 1 << k; i++) {
 				solution += Math.pow(-1, 1 + countOnes(i)) * count[i];
+				while (solution < 0)
+					solution += 9901;
+				solution = solution % 9901;
+			}
 
 			out.println("Case #" + cT + ": "
-					+ ((factorial(n - 1)) / 2 - solution) % 9901);
+					+ ((factorial(n - 1)) / 2 - solution + 9901) % 9901);
 		}
 		scan.close();
 		out.close();
