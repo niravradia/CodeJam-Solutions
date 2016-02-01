@@ -59,7 +59,30 @@ public class MainClass {
 				setEvent(8, turnAroundTime + clockToMinutes(scan.next()),
 						events, eventTimes);
 			}
+			na = 0;
+			nb = 0;
+			int rna = 0;
+			int rnb = 0;
+			for (int i = 0; i < events.size(); i++) {
+				if ((events.get(i) & 8) > 0)
+					na++;
+				if ((events.get(i) & 4) > 0)
+					nb++;
+				if ((events.get(i) & 2) > 0)
+					na--;
+				if ((events.get(i) & 1) > 0)
+					nb--;
+				if (na == -1) {
+					na++;
+					rna++;
+				}
+				if (nb == -1) {
+					nb++;
+					rnb++;
+				}
+			}
 
+			out.println("Case #" + cT + ": " + rna + " " + rnb);
 		}
 
 		scan.close();
