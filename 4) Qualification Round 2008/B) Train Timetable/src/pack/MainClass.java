@@ -18,16 +18,11 @@ public class MainClass {
 			ArrayList<Integer> events, ArrayList<Integer> eventTimes) {
 		if (eventTime >= 1440)
 			return;
-		int index = eventTimes.indexOf(eventTime);
-		if (index == -1) {
-			index = 0;
-			while (eventTimes.get(index) < eventTime)
-				index++;
-			eventTimes.add(index, eventTime);
-			events.add(index, eventType);
-		} else {
-			events.set(index, events.get(index) | eventType);
-		}
+		int index = 0;
+		while (eventTimes.size() > index && eventTimes.get(index) < eventTime)
+			index++;
+		eventTimes.add(index, eventTime);
+		events.add(index, eventType);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -80,6 +75,8 @@ public class MainClass {
 					nb++;
 					rnb++;
 				}
+				System.out.println(na + "  " + nb + "  " + rna + "  " + rnb
+						+ "  " + events.get(i) + "  " + eventTimes.get(i));
 			}
 
 			out.println("Case #" + cT + ": " + rna + " " + rnb);
