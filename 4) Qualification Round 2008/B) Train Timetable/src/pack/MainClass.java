@@ -2,6 +2,7 @@ package pack;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainClass {
@@ -13,6 +14,22 @@ public class MainClass {
 		return t;
 	}
 
+	public static void setEvent(int eventType, int eventTime,
+			ArrayList<Integer> events, ArrayList<Integer> eventTimes) {
+		if (eventTime >= 1440)
+			return;
+		int index = eventTimes.indexOf(eventTime);
+		if (index == -1) {
+			index = 0;
+			while (eventTimes.get(index) < eventTime)
+				index++;
+			eventTimes.add(index, eventTime);
+			events.add(index, eventType);
+		} else {
+			events.set(index, events.get(index) | eventType);
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 
 		Scanner scan = new Scanner(new File("input.in"));
@@ -20,24 +37,27 @@ public class MainClass {
 
 		int T = scan.nextInt();
 		int turnAroundTime, na, nb;
-		int scheduleA[][], scheduleB[][];
+		ArrayList<Integer> events = new ArrayList<Integer>();
+		ArrayList<Integer> eventTimes = new ArrayList<Integer>();
 
 		for (int cT = 1; cT <= T; cT++) {
+
+			events.clear();
+			eventTimes.clear();
 
 			turnAroundTime = scan.nextInt();
 			na = scan.nextInt();
 			nb = scan.nextInt();
 
-			scheduleA = new int[na][2];
-			scheduleB = new int[nb][2];
-
 			for (int i = 0; i < na; i++) {
-				scheduleA[i][0] = clockToMinutes(scan.next());
-				scheduleA[i][1] = clockToMinutes(scan.next());
+				setEvent(2, clockToMinutes(scan.next()), events, eventTimes);
+				setEvent(4, turnAroundTime + clockToMinutes(scan.next()),
+						events, eventTimes);
 			}
 			for (int i = 0; i < nb; i++) {
-				scheduleB[i][0] = clockToMinutes(scan.next());
-				scheduleB[i][1] = clockToMinutes(scan.next());
+				setEvent(1, clockToMinutes(scan.next()), events, eventTimes);
+				setEvent(8, turnAroundTime + clockToMinutes(scan.next()),
+						events, eventTimes);
 			}
 
 		}
@@ -46,5 +66,4 @@ public class MainClass {
 		out.close();
 
 	}
-
 }
