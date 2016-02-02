@@ -37,3 +37,7 @@ Solutions added -
 	A) Saving The Universe - Correct for both data sets
     
     B) Train Timetable - Correct for both data sets
+
+5) Round 1A 2008
+
+    A) Minimum Scalar Product - Correct for both data sets
