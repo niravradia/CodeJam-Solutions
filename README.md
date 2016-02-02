@@ -35,3 +35,5 @@ Solutions added -
 4) Google CodeJam 2008
 
 	A) Saving The Universe - Correct for both data sets
+    
+    B) Train Timetable - Correct for both data sets

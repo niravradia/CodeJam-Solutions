@@ -19,8 +19,17 @@ public class MainClass {
 		if (eventTime >= 1440)
 			return;
 		int index = 0;
-		while (eventTimes.size() > index && eventTimes.get(index) < eventTime)
-			index++;
+		if (eventTimes.size() != 0)
+			while (eventTimes.size() > index
+					&& eventTimes.get(index) <= eventTime)
+				if (eventTimes.get(index) == eventTime) {
+					if ((eventType != 4 && eventType != 8)
+							|| (events.get(index) != 1 && events.get(index) != 2))
+						index++;
+					else
+						break;
+				} else
+					index++;
 		eventTimes.add(index, eventTime);
 		events.add(index, eventType);
 	}
@@ -75,8 +84,6 @@ public class MainClass {
 					nb++;
 					rnb++;
 				}
-				System.out.println(na + "  " + nb + "  " + rna + "  " + rnb
-						+ "  " + events.get(i) + "  " + eventTimes.get(i));
 			}
 
 			out.println("Case #" + cT + ": " + rna + " " + rnb);
