@@ -2,7 +2,6 @@ package pack;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class MainClass {
