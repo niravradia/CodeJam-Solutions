@@ -43,3 +43,5 @@ Solutions added -
     A) Minimum Scalar Product - Correct for both data sets
     
     B) Milkshakes - Correct for both data sets
+    
+    C) Numbers - Correct for small data set
