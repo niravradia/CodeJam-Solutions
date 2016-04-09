@@ -1,4 +1,6 @@
 **/.classpath
 **/.idea
+**/*.xml
+**/.name
 **/.project
 **/*.class
